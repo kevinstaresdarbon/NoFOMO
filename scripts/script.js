@@ -143,4 +143,4 @@ $(document).ready(function () {
     cardCol.appendChild(card);
     dynamicCardsContainer.appendChild(cardCol);
   }
-});
+;
