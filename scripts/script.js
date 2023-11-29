@@ -48,4 +48,60 @@ document.addEventListener("DOMContentLoaded", function () {
 
   container.appendChild(row);
   schedule.appendChild(container);
+
+  // Create 8 cards dynamically
+  const dynamicCardsContainer = document.getElementById("dynamicCards");
+
+  for (let i = 0; i < 10; i++) {
+    // Card
+    const cardCol = document.createElement("div");
+    cardCol.className = "col-md-3 mb-4";
+    cardCol.style.display = "inline-block";
+
+    const card = document.createElement("div");
+    card.className = "card mb-4 shadow-sm";
+
+    // Card Image
+    const cardImage = document.createElement("img");
+    cardImage.src = "https://placehold.co/300x200";
+    cardImage.alt = "Restaurant Image";
+    cardImage.className = "card-img-top";
+
+    // Card Body
+    const cardBody = document.createElement("div");
+    cardBody.className = "card-body";
+
+    // Card Title
+    const cardTitle = document.createElement("h2");
+    cardTitle.className = "card-title font-weight-bold";
+    cardTitle.innerText = "Result Name";
+
+    // Button Group
+    const buttonGroup = document.createElement("div");
+    buttonGroup.className =
+      "d-flex justify-content-between align-items-center mt-2";
+
+    // View Button
+    const viewButton = document.createElement("button");
+    viewButton.className = "btn btn-success";
+    viewButton.innerText = "View";
+
+    // Add Button
+    const addButton = document.createElement("button");
+    addButton.className = "btn btn-success";
+    addButton.innerText = "Add";
+
+    // Append
+    buttonGroup.appendChild(viewButton);
+    buttonGroup.appendChild(addButton);
+
+    cardBody.appendChild(cardTitle);
+    cardBody.appendChild(buttonGroup);
+
+    card.appendChild(cardImage);
+    card.appendChild(cardBody);
+
+    cardCol.appendChild(card);
+    dynamicCardsContainer.appendChild(cardCol);
+  }
 });
