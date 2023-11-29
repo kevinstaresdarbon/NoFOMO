@@ -24,7 +24,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Add to Your Day</h1>
             <button
               type="button"
               class="btn-close"
@@ -32,16 +32,26 @@
               aria-label="Close"
             ></button>
           </div>
-          <div class="modal-body">...</div>
+          <div class="modal-body">
+            <div id="event-name">
+              Name of Event
+            </div>
+            <select class="form-control mr-2">
+              <option>10:00</option>
+            </select>
+            <div id="duration">
+              Duration
+            </div>
+          </div>
           <div class="modal-footer">
             <button
               type="button"
               class="btn btn-secondary"
               data-bs-dismiss="modal"
             >
-              Close
+              Cancel
             </button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-primary">Add to Schedule</button>
           </div>
         </div>
       </div>
