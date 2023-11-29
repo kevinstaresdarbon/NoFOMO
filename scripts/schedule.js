@@ -12,15 +12,23 @@ function populateModal() {
     // Loop to create time options in modal
     for (var i = 0; i < 24 ; i++) {
         var timeSlot = $("<option>");
+        timeSlot.attr("value", i);
         var time = i.toString().padStart(2, "0") + ":00";
         timeSlot.text(time);
         modalTime.append(timeSlot);
     }
 }
 
+
+
 // Function to add event
 function addEvent() {
-    console.log("adding event...")
+    console.log("adding event...");
+    // set variables for time, and duration
+    var eventTime = modalTime.val();
+    var eventDuration = $("#modal-duration").val();
+
+    // Add to schedule
 }
 
 // Event listener for card add button
@@ -30,6 +38,8 @@ resultsSection.on("click", "button.add-btn", function() {
     
 });
 
-
-// Each card has ID with the name of event
-
+// Event listener for modal submission
+$("#schedule-btn").on("click", function() {
+    // Create schedule event
+    addEvent();
+})

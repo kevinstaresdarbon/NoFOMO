@@ -32,10 +32,13 @@ document.addEventListener("DOMContentLoaded", function () {
     // Time
     const time = document.createElement("p");
     time.innerText = `${hour.toString().padStart(2, "0")}:00`;
+    
 
     // Task
     const task = document.createElement("p");
     task.className = "task";
+    const taskId = `${hour}`; 
+    task.setAttribute("id", "task-" + taskId);
     task.innerText = "Task";
 
     // Append
