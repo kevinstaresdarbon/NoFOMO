@@ -37,6 +37,8 @@ $(document).ready(function () {
       // Task
       const task = document.createElement("p");
       task.className = "task";
+      const taskId = `${hour}`; 
+      task.setAttribute("id", "task-" + taskId);
       task.innerText = "Task";
 
       // Append

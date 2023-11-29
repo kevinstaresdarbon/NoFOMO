@@ -18,15 +18,13 @@
       class="modal fade"
       id="addModal"
       tabindex="-1"
-      aria-labelledby="exampleModalLabel"
+      aria-labelledby="addModalLabel"
       aria-hidden="true"
     >
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">
-              Add to Your Day
-            </h1>
+            <h1 class="modal-title fs-5" id="addModalLabel">Add to Your Day</h1>
             <button
               type="button"
               class="btn-close"
@@ -35,11 +33,15 @@
             ></button>
           </div>
           <div class="modal-body">
-            <div id="event-name">Name of Event</div>
-            <select class="form-control mr-2">
-              <option>10:00</option>
+            <h6>Event Name</h6>
+            <h5 id="event-name">
+              Name of Event
+            </h5>
+            <h6>Select a timeslot</h6>
+            <select class="form-control mr-2" id="modal-time">
             </select>
-            <div id="duration">Duration</div>
+            <h6>Select a duration</h6>
+            <input type="text" placeholder="1" class="form-control mr-2" id="modal-duration"/>
           </div>
           <div class="modal-footer">
             <button
@@ -49,9 +51,7 @@
             >
               Cancel
             </button>
-            <button type="button" class="btn btn-primary">
-              Add to Schedule
-            </button>
+            <button type="button" class="btn btn-primary" id="schedule-btn">Add to Schedule</button>
           </div>
         </div>
       </div>
