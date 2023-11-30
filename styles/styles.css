@@ -32,7 +32,7 @@
 }
 
 .card {
-  justify-content: center;
+  text-align: left;
   border: none;
   border-radius: 15px;
   background-color: #F2F3F5;
@@ -40,6 +40,25 @@
 
 .card img {
   border-radius: 15px;
+}
+
+.result-title {
+  font-size: 18px;
+  margin-bottom: 24px;
+}
+
+.add-btn {
+  background-color: #08A045;
+  color: white;
+  width: 50%;
+  margin-left: 6px;
+}
+
+.view-btn {
+  background-color: #DCDDE0;
+  color: #5F6369;
+  width: 50%;
+  margin-right: 6px;
 }
 
 #daily-schedule {
