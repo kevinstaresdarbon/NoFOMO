@@ -56,27 +56,6 @@ function handleSearch() {
   var location = $("#locationInput").val();
   var date = $("#dateInput").val();
   var time = $("#timeInput").val();
-  var queryURL =
-    "https://api.content.tripadvisor.com/api/v1/location/search?key=" +
-    TA_API_KEY +
-    "&searchQuery=" +
-    location +
-    "&language=en";
-
-  $.ajax({
-    url: queryURL,
-    async: "true",
-    method: "GET",
-    dataType: "jsonp",
-    crossDomain: "true",
-    headers: { referer: "kevinstaresdarbon.github.io" },
-    success: function (response) {
-      console.log(response);
-    },
-    error: function (err) {
-      console.log("An error occured: " + err);
-    },
-  });
 }
 
 $("#searchBtn").on("click", handleSearch);
