@@ -91,7 +91,7 @@ for (let i = 0; i < 10; i++) {
   cardCol.style.display = "inline-block";
 
   const card = document.createElement("div");
-  card.className = "card mb-4 shadow-sm";
+  card.className = "card mb-4";
 
   // Card Image
   const cardImage = document.createElement("img");
@@ -105,7 +105,7 @@ for (let i = 0; i < 10; i++) {
 
   // Card Title
   const cardTitle = document.createElement("h2");
-  cardTitle.className = "card-title font-weight-bold";
+  cardTitle.className = "card-title result-title";
   cardTitle.innerText = "Result Name";
 
   // Button Group
@@ -115,12 +115,12 @@ for (let i = 0; i < 10; i++) {
 
   // View Button
   const viewButton = document.createElement("button");
-  viewButton.className = "btn btn-success";
+  viewButton.className = "btn view-btn";
   viewButton.innerText = "View";
 
   // Add Button
   const addButton = document.createElement("button");
-  addButton.className = "btn btn-success add-btn";
+  addButton.className = "btn add-btn";
   addButton.setAttribute("data-bs-toggle", "modal");
   addButton.setAttribute("data-bs-target", "#addModal");
   addButton.innerText = "Add";
