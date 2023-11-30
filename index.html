@@ -34,14 +34,16 @@
           </div>
           <div class="modal-body">
             <h6>Event Name</h6>
-            <h5 id="event-name">
-              Name of Event
-            </h5>
+            <h5 id="event-name">Name of Event</h5>
             <h6>Select a timeslot</h6>
-            <select class="form-control mr-2" id="modal-time">
-            </select>
+            <select class="form-control mr-2" id="modal-time"></select>
             <h6>Select a duration</h6>
-            <input type="text" placeholder="1" class="form-control mr-2" id="modal-duration"/>
+            <input
+              type="text"
+              placeholder="1"
+              class="form-control mr-2"
+              id="modal-duration"
+            />
           </div>
           <div class="modal-footer">
             <button
@@ -51,16 +53,16 @@
             >
               Cancel
             </button>
-            <button type="button" class="btn btn-primary" id="schedule-btn">Add to Schedule</button>
+            <button type="button" class="btn btn-primary" id="schedule-btn">
+              Add to Schedule
+            </button>
           </div>
         </div>
       </div>
     </div>
 
     <div class="container mt-4" id="page-content">
-      <div
-        class="row justify-content-between bg-white rounded-lg shadow-md"
-      >
+      <div class="row justify-content-between bg-white rounded-lg shadow-md">
         <h1 class="text-xl font-weight-bold">I am looking for...</h1>
         <div class="d-flex">
           <div class="input-group">
@@ -69,12 +71,27 @@
               <option>Restaurant</option>
             </select>
             <span class="input-group-text">Location</span>
-            <input type="text" placeholder="Cheltenham" class="form-control mr-2" id="locationInput"/>
+            <input
+              type="text"
+              placeholder="Cheltenham"
+              class="form-control mr-2"
+              id="locationInput"
+            />
             <span class="input-group-text">Date</span>
-          <input type="text" placeholder="Date" class="form-control mr-2" id="dateInput"/>
-          <span class="input-group-text">Time</span>
-          <input type="text" placeholder="Time" class="form-control mr-2" id="timeInput"/>
-          <button class="btn btn-primary" id="searchBtn">Search</button>
+            <input
+              type="text"
+              placeholder="Date"
+              class="form-control mr-2"
+              id="dateInput"
+            />
+            <span class="input-group-text">Time</span>
+            <input
+              type="text"
+              placeholder="Time"
+              class="form-control mr-2"
+              id="timeInput"
+            />
+            <button class="btn btn-primary" id="searchBtn">Search</button>
           </div>
         </div>
       </div>
@@ -112,7 +129,7 @@
         </div>
       </div>
     </div>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
@@ -126,5 +143,6 @@
     ></script>
     <script src="./scripts/script.js"></script>
     <script src="./scripts/schedule.js"></script>
+    <script src="./scripts/weather.js"></script>
   </body>
 </html>
