@@ -38,7 +38,6 @@ document.addEventListener("DOMContentLoaded", function () {
     task.className = "task";
     const taskId = `${hour}`;
     task.setAttribute("id", "task-" + taskId);
-    task.innerText = "Task";
 
     // Append
     box.appendChild(time);

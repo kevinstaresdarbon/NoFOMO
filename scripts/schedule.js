@@ -29,6 +29,9 @@ function addEvent() {
     var eventDuration = $("#modal-duration").val();
 
     // Add to schedule
+    var timeID = "#task-" + eventTime;
+    var taskEl = $("<div>").text(eventName);
+    $(timeID).append(taskEl);
 }
 
 // Event listener for card add button
