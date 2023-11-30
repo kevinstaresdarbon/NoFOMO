@@ -1,19 +1,6 @@
 const apiKey = "823b7a879fa89784bda76351e07d40f7";
 const weatherApiUrl = "https://api.openweathermap.org/data/2.5/forecast";
 
-// Function to get user's current location
-function getCurrentLocation(successCallback, errorCallback) {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function (position) {
-      const latitude = position.coords.latitude;
-      const longitude = position.coords.longitude;
-      successCallback({ latitude, longitude });
-    }, errorCallback);
-  } else {
-    errorCallback("Geolocation is not supported by this browser.");
-  }
-}
-
 // Function to get weather forecast
 function getWeatherForecast(city, hours, successCallback, errorCallback) {
   const apiUrl = `${weatherApiUrl}?q=${city}&appid=${apiKey}`;
@@ -46,10 +33,14 @@ function updateWeatherForCity(city) {
         // Update time card with temperature and weather icon
         const taskBox = document.getElementById(`task-${hour}`);
         console.log(
-          `Updating task-${hour} with temperature: ${temperature}°C, icon: ${weatherIcon}`
+          `Updating task-${hour} with temperature: ${temperature}°K, icon: ${weatherIcon}`
         );
+
+        // Convert temperature from Kelvin to Celsius
+        const temperatureCelsius = Math.round(temperature - 273.15);
+
         taskBox.innerHTML = `<p>${hour.toString().padStart(2, "0")}:00</p>
-                             <p>${temperature}°C</p>
+                             <p>${temperatureCelsius}°C</p>
                              <img src="https://openweathermap.org/img/w/${weatherIcon}.png" alt="Weather Icon">
                              `;
       });
@@ -60,23 +51,21 @@ function updateWeatherForCity(city) {
   );
 }
 
-// Function to update weather for user's current location
-function updateWeatherForCurrentLocation() {
-  const hours = Array.from({ length: 24 }, (_, i) => i);
+// Example usage: Update weather using the location from the input field
+function updateWeatherForInputLocation() {
+  const inputLocation = $("#locationInput").val();
 
-  // Get user's current location
-  getCurrentLocation(
-    function (coords) {
-      const { latitude, longitude } = coords;
+  if (!inputLocation) {
+    console.error("Input location is empty. Please provide a valid location.");
+    return;
+  }
 
-      // Example usage: Fetch weather forecast for current location
-      updateWeatherForCity(`${latitude},${longitude}`);
-    },
-    function (error) {
-      console.log("Error getting user location: ", error);
-    }
-  );
+  console.log("Updating weather for location:", inputLocation);
+
+  updateWeatherForCity(inputLocation);
 }
 
-// Example usage: Update weather for the user's current location
-updateWeatherForCurrentLocation();
+// Example usage: Update weather using the location from the input field
+$(document).ready(function () {
+  updateWeatherForInputLocation();
+});
