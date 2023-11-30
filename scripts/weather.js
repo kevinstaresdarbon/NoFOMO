@@ -27,6 +27,39 @@ function getWeatherForecast(city, hours, successCallback, errorCallback) {
   });
 }
 
+// Function to update weather for a specific city
+function updateWeatherForCity(city) {
+  const hours = Array.from({ length: 24 }, (_, i) => i);
+
+  getWeatherForecast(
+    city,
+    hours,
+    function (response) {
+      // Handle the weather data response
+      console.log("API Response:", response);
+
+      // Update UI with the weather information
+      hours.forEach((hour, index) => {
+        const temperature = response.list[index].main.temp;
+        const weatherIcon = response.list[index].weather[0].icon;
+
+        // Update time card with temperature and weather icon
+        const taskBox = document.getElementById(`task-${hour}`);
+        console.log(
+          `Updating task-${hour} with temperature: ${temperature}°C, icon: ${weatherIcon}`
+        );
+        taskBox.innerHTML = `<p>${hour.toString().padStart(2, "0")}:00</p>
+                             <p>${temperature}°C</p>
+                             <img src="https://openweathermap.org/img/w/${weatherIcon}.png" alt="Weather Icon">
+                             `;
+      });
+    },
+    function (error) {
+      console.log("Error fetching weather data: ", error);
+    }
+  );
+}
+
 // Function to update weather for user's current location
 function updateWeatherForCurrentLocation() {
   const hours = Array.from({ length: 24 }, (_, i) => i);
@@ -37,32 +70,7 @@ function updateWeatherForCurrentLocation() {
       const { latitude, longitude } = coords;
 
       // Example usage: Fetch weather forecast for current location
-      getWeatherForecast(
-        `${latitude},${longitude}`, // Using latitude and longitude for more accurate results
-        hours,
-        function (response) {
-          // Handle the weather data response
-          console.log("API Response:", response);
-
-          // Update UI with the weather information
-          hours.forEach((hour, index) => {
-            const temperature = response.list[index].main.temp;
-            const weatherDescription =
-              response.list[index].weather[0].description;
-
-            const taskBox = document.getElementById(`task-${hour}`);
-            console.log(
-              `Updating task-${hour} with temperature: ${temperature}°C, weather: ${weatherDescription}`
-            );
-            taskBox.innerHTML = `<p>${hour.toString().padStart(2, "0")}:00</p>
-                                 <p>${temperature}°C</p>
-                                 <p>${weatherDescription}</p>`;
-          });
-        },
-        function (error) {
-          console.log("Error fetching weather data: ", error);
-        }
-      );
+      updateWeatherForCity(`${latitude},${longitude}`);
     },
     function (error) {
       console.log("Error getting user location: ", error);
