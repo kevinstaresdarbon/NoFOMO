@@ -14,28 +14,35 @@ function getWeatherForecast(city, hours, successCallback, errorCallback) {
   });
 }
 
-// Function to update weather for each hour
-function updateWeatherForHours(city) {
+// Function to update weather for a specific city
+function updateWeatherForCity(city) {
   const hours = Array.from({ length: 24 }, (_, i) => i);
 
-  // Example usage: Fetch weather forecast for each hour
   getWeatherForecast(
     city,
     hours,
     function (response) {
       // Handle the weather data response
-      console.log(response);
+      console.log("API Response:", response);
 
-      // You can now update your UI with the weather information for each hour
-      // Example: Update the task boxes with temperature or other weather data
+      // Update UI with the weather information
       hours.forEach((hour, index) => {
         const temperature = response.list[index].main.temp;
-        const weatherDescription = response.list[index].weather[0].description;
+        const weatherIcon = response.list[index].weather[0].icon;
 
+        // Update time card with temperature and weather icon
         const taskBox = document.getElementById(`task-${hour}`);
+        console.log(
+          `Updating task-${hour} with temperature: ${temperature}°K, icon: ${weatherIcon}`
+        );
+
+        // Convert temperature from Kelvin to Celsius
+        const temperatureCelsius = Math.round(temperature - 273.15);
+
         taskBox.innerHTML = `<p>${hour.toString().padStart(2, "0")}:00</p>
-                             <p>${temperature}°C</p>
-                             <p>${weatherDescription}</p>`;
+                             <p>${temperatureCelsius}°C</p>
+                             <img src="https://openweathermap.org/img/w/${weatherIcon}.png" alt="Weather Icon">
+                             `;
       });
     },
     function (error) {
@@ -44,6 +51,21 @@ function updateWeatherForHours(city) {
   );
 }
 
-// Example usage: Update weather for a specific city (you can get this dynamically based on user input)
-const city = "YourCityName";
-updateWeatherForHours(city);
+// Example usage: Update weather using the location from the input field
+function updateWeatherForInputLocation() {
+  const inputLocation = $("#locationInput").val();
+
+  if (!inputLocation) {
+    console.error("Input location is empty. Please provide a valid location.");
+    return;
+  }
+
+  console.log("Updating weather for location:", inputLocation);
+
+  updateWeatherForCity(inputLocation);
+}
+
+// Example usage: Update weather using the location from the input field
+$(document).ready(function () {
+  updateWeatherForInputLocation();
+});
