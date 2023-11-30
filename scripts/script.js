@@ -38,6 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
     task.className = "task";
     const taskId = `${hour}`;
     task.setAttribute("id", "task-" + taskId);
+    task.innerText = "Task";
 
     // Append
     box.appendChild(time);
@@ -56,11 +57,28 @@ function handleSearch() {
   var location = $("#locationInput").val();
   var date = $("#dateInput").val();
   var time = $("#timeInput").val();
+
+  if (!location) {
+    console.error("Input location is empty. Please provide a valid location.");
+    return;
+  }
+
+  console.log("Updating weather for location:", location);
+
+  // Clear existing time fields
+  const hours = Array.from({ length: 24 }, (_, i) => i);
+  hours.forEach((hour) => {
+    const taskBox = document.getElementById(`task-${hour}`);
+    taskBox.innerHTML = ""; // Clear the content
+  });
+
+  // Call the function to update weather for the entered location
+  updateWeatherForCity(location);
 }
 
 $("#searchBtn").on("click", handleSearch);
 
-// Create 8 cards dynamically
+// Create 10 cards dynamically (adjusted from 8 to 10)
 const dynamicCardsContainer = document.getElementById("dynamicCards");
 
 for (let i = 0; i < 10; i++) {
@@ -70,7 +88,7 @@ for (let i = 0; i < 10; i++) {
   cardCol.style.display = "inline-block";
 
   const card = document.createElement("div");
-  card.className = "card mb-4";
+  card.className = "card mb-4 shadow-sm";
 
   // Card Image
   const cardImage = document.createElement("img");
@@ -84,7 +102,7 @@ for (let i = 0; i < 10; i++) {
 
   // Card Title
   const cardTitle = document.createElement("h2");
-  cardTitle.className = "card-title result-title";
+  cardTitle.className = "card-title result-title font-weight-bold";
   cardTitle.innerText = "Result Name";
 
   // Button Group
@@ -94,12 +112,12 @@ for (let i = 0; i < 10; i++) {
 
   // View Button
   const viewButton = document.createElement("button");
-  viewButton.className = "btn view-btn";
+  viewButton.className = "btn view-btn btn-success";
   viewButton.innerText = "View";
 
   // Add Button
   const addButton = document.createElement("button");
-  addButton.className = "btn add-btn";
+  addButton.className = "btn btn-success add-btn";
   addButton.setAttribute("data-bs-toggle", "modal");
   addButton.setAttribute("data-bs-target", "#addModal");
   addButton.innerText = "Add";
@@ -117,3 +135,22 @@ for (let i = 0; i < 10; i++) {
   cardCol.appendChild(card);
   dynamicCardsContainer.appendChild(cardCol);
 }
+
+function populateModal() {
+  // Function to populate the modal with content
+}
+
+function addEvent() {
+  // Function to add event to the schedule
+}
+
+// Event listeners for modal and schedule
+resultsSection.on("click", "button.add-btn", function () {
+  // On click, populate modal
+  populateModal();
+});
+
+$("#schedule-btn").on("click", function () {
+  // Create schedule event
+  addEvent();
+});
