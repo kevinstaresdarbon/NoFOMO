@@ -91,7 +91,7 @@ for (let i = 0; i < 10; i++) {
   cardCol.style.display = "inline-block";
 
   const card = document.createElement("div");
-  card.className = "card mb-4 shadow-sm";
+  card.className = "card mb-4";
 
   // Card Image
   const cardImage = document.createElement("img");

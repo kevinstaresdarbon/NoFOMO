@@ -62,14 +62,20 @@
         class="row justify-content-between bg-white rounded-lg shadow-md"
       >
         <h1 class="text-xl font-weight-bold">I am looking for...</h1>
-        <div class="d-flex align-items-center">
-          <select class="form-control mr-2" id="categoryInput">
-            <option>Restaurant</option>
-          </select>
-          <input type="text" placeholder="Location" class="form-control mr-2" id="locationInput" />
+        <div class="d-flex">
+          <div class="input-group">
+            <span class="input-group-text">Event Type</span>
+            <select class="form-control mr-2" id="categoryInput">
+              <option>Restaurant</option>
+            </select>
+            <span class="input-group-text">Location</span>
+            <input type="text" placeholder="Cheltenham" class="form-control mr-2" id="locationInput"/>
+            <span class="input-group-text">Date</span>
           <input type="text" placeholder="Date" class="form-control mr-2" id="dateInput"/>
+          <span class="input-group-text">Time</span>
           <input type="text" placeholder="Time" class="form-control mr-2" id="timeInput"/>
           <button class="btn btn-primary" id="searchBtn">Search</button>
+          </div>
         </div>
       </div>
 
