@@ -1,6 +1,19 @@
 const apiKey = "823b7a879fa89784bda76351e07d40f7";
 const weatherApiUrl = "https://api.openweathermap.org/data/2.5/forecast";
 
+// Function to get user's current location
+function getCurrentLocation(successCallback, errorCallback) {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      successCallback({ latitude, longitude });
+    }, errorCallback);
+  } else {
+    errorCallback("Geolocation is not supported by this browser.");
+  }
+}
+
 // Function to get weather forecast
 function getWeatherForecast(city, hours, successCallback, errorCallback) {
   const apiUrl = `${weatherApiUrl}?q=${city}&appid=${apiKey}`;
@@ -14,36 +27,48 @@ function getWeatherForecast(city, hours, successCallback, errorCallback) {
   });
 }
 
-// Function to update weather for each hour
-function updateWeatherForHours(city) {
+// Function to update weather for user's current location
+function updateWeatherForCurrentLocation() {
   const hours = Array.from({ length: 24 }, (_, i) => i);
 
-  // Example usage: Fetch weather forecast for each hour
-  getWeatherForecast(
-    city,
-    hours,
-    function (response) {
-      // Handle the weather data response
-      console.log(response);
+  // Get user's current location
+  getCurrentLocation(
+    function (coords) {
+      const { latitude, longitude } = coords;
 
-      // You can now update your UI with the weather information for each hour
-      // Example: Update the task boxes with temperature or other weather data
-      hours.forEach((hour, index) => {
-        const temperature = response.list[index].main.temp;
-        const weatherDescription = response.list[index].weather[0].description;
+      // Example usage: Fetch weather forecast for current location
+      getWeatherForecast(
+        `${latitude},${longitude}`, // Using latitude and longitude for more accurate results
+        hours,
+        function (response) {
+          // Handle the weather data response
+          console.log("API Response:", response);
 
-        const taskBox = document.getElementById(`task-${hour}`);
-        taskBox.innerHTML = `<p>${hour.toString().padStart(2, "0")}:00</p>
-                             <p>${temperature}°C</p>
-                             <p>${weatherDescription}</p>`;
-      });
+          // Update UI with the weather information
+          hours.forEach((hour, index) => {
+            const temperature = response.list[index].main.temp;
+            const weatherDescription =
+              response.list[index].weather[0].description;
+
+            const taskBox = document.getElementById(`task-${hour}`);
+            console.log(
+              `Updating task-${hour} with temperature: ${temperature}°C, weather: ${weatherDescription}`
+            );
+            taskBox.innerHTML = `<p>${hour.toString().padStart(2, "0")}:00</p>
+                                 <p>${temperature}°C</p>
+                                 <p>${weatherDescription}</p>`;
+          });
+        },
+        function (error) {
+          console.log("Error fetching weather data: ", error);
+        }
+      );
     },
     function (error) {
-      console.log("Error fetching weather data: ", error);
+      console.log("Error getting user location: ", error);
     }
   );
 }
 
-// Example usage: Update weather for a specific city (you can get this dynamically based on user input)
-const city = "YourCityName";
-updateWeatherForHours(city);
+// Example usage: Update weather for the user's current location
+updateWeatherForCurrentLocation();
