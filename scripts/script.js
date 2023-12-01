@@ -53,57 +53,106 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function handleSearch() {
+  var locationIDs = [];
   var category = $("#categoryInput").val();
   var location = $("#locationInput").val();
   var date = $("#dateInput").val();
   var time = $("#timeInput").val();
 
-  if (!location) {
-    console.error("Input location is empty. Please provide a valid location.");
-    return;
-  }
+  const url = 'https://worldwide-restaurants.p.rapidapi.com/typeahead';
+  const settings = {
+    async: true,
+    crossDomain: true,
+    url: 'https://worldwide-restaurants.p.rapidapi.com/typeahead',
+    method: 'POST',
+    headers: {
+      'content-type': 'application/x-www-form-urlencoded',
+      'X-RapidAPI-Key': '3b3014b767msh0f5d9ed74986aa6p1b0d4djsn8246731a57ed',
+      'X-RapidAPI-Host': 'worldwide-restaurants.p.rapidapi.com'
+    },
+    data: {
+      q: location,
+      language: 'en_GB'
+    }
+  };
 
-  console.log("Updating weather for location:", location);
+  $.ajax(settings).done(function (response) {
+    const settings = {
+      async: true,
+      crossDomain: true,
+      url: 'https://worldwide-restaurants.p.rapidapi.com/search',
+      method: 'POST',
+      headers: {
+        'content-type': 'application/x-www-form-urlencoded',
+        'X-RapidAPI-Key': '3b3014b767msh0f5d9ed74986aa6p1b0d4djsn8246731a57ed',
+        'X-RapidAPI-Host': 'worldwide-restaurants.p.rapidapi.com'
+      },
+      data: {
+        language: 'en_GB',
+        location_id: response.results.data[0].result_object.location_id,
+        currency: 'GBP',
+        offset: '0'
+      }
+    };
 
-  // Clear existing time fields
-  const hours = Array.from({ length: 24 }, (_, i) => i);
-  hours.forEach((hour) => {
-    const taskBox = document.getElementById(`task-${hour}`);
-    taskBox.innerHTML = ""; // Clear the content
+    console.log(response.results);
+
+    $.ajax(settings).done(function (response) {
+
+      for (let i = 0; i < 10; i++) {
+        // locationIDs[i] = response.results.data[i].location_id; //add more code into this loop
+        // var currentCard = $("#card" + i);
+        // console.log(currentCard);
+        // currentCard.children().eq(1).children("h2").innerText = response.results.data[i].name;
+        // console.log(response.results.data[i]);
+        var name = response.results.data[i].name;
+        var imgSRC = response.results.data[i].photo.images.medium.url;
+        var viewSRC = response.results.data[i].web_url;
+        cardMaker(name, imgSRC, viewSRC);
+      }
+
+    });
+
   });
 
   // Call the function to update weather for the entered location
   updateWeatherForCity(location);
 }
 
+function handleView(event){
+  console.log(event.target);
+  window.open(event.target.dataset.viewsrc, "_blank");
+}
+
 $("#searchBtn").on("click", handleSearch);
+$(document).on("click", ".viewButton", handleView)
 
-// Create 10 cards dynamically (adjusted from 8 to 10)
-const dynamicCardsContainer = document.getElementById("dynamicCards");
+function cardMaker(name, imgSRC, viewSRC){
+  const dynamicCardsContainer = document.getElementById("dynamicCards");
 
-for (let i = 0; i < 10; i++) {
-  // Card
+
   const cardCol = document.createElement("div");
   cardCol.className = "col-md-3 mb-4";
   cardCol.style.display = "inline-block";
 
   const card = document.createElement("div");
-  card.className = "card mb-4 shadow-sm";
-
+  card.minHeight = "600px";
+  card.className = "card mb-4 shadow-sm h-100";
   // Card Image
   const cardImage = document.createElement("img");
-  cardImage.src = "https://placehold.co/300x200";
+  cardImage.src = imgSRC;
   cardImage.alt = "Restaurant Image";
   cardImage.className = "card-img-top";
 
   // Card Body
   const cardBody = document.createElement("div");
-  cardBody.className = "card-body";
+  cardBody.className = "card-body d-flex flex-column justify-content-between";
 
   // Card Title
   const cardTitle = document.createElement("h2");
-  cardTitle.className = "card-title result-title font-weight-bold";
-  cardTitle.innerText = "Result Name";
+
+  cardTitle.className = "card-title font-weight-bold";
+  cardTitle.innerText = name;
 
   // Button Group
   const buttonGroup = document.createElement("div");
@@ -112,7 +161,10 @@ for (let i = 0; i < 10; i++) {
 
   // View Button
   const viewButton = document.createElement("button");
-  viewButton.className = "btn view-btn btn-success";
+
+  viewButton.className = "btn btn-success viewButton";
+  viewButton.setAttribute("data-viewsrc", viewSRC);
+
   viewButton.innerText = "View";
 
   // Add Button
@@ -136,21 +188,4 @@ for (let i = 0; i < 10; i++) {
   dynamicCardsContainer.appendChild(cardCol);
 }
 
-function populateModal() {
-  // Function to populate the modal with content
-}
 
-function addEvent() {
-  // Function to add event to the schedule
-}
-
-// Event listeners for modal and schedule
-resultsSection.on("click", "button.add-btn", function () {
-  // On click, populate modal
-  populateModal();
-});
-
-$("#schedule-btn").on("click", function () {
-  // Create schedule event
-  addEvent();
-});
