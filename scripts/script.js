@@ -139,7 +139,7 @@ function cardMaker(name, imgSRC, viewSRC){
 
   const card = document.createElement("div");
   card.minHeight = "600px";
-  card.className = "card mb-4 shadow-sm h-100";
+  card.className = "card mb-4";
   // Card Image
   const cardImage = document.createElement("img");
   cardImage.src = imgSRC;
