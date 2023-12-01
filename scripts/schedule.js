@@ -3,9 +3,10 @@ var modalEventName = $("#event-name");
 var modalTime = $("#modal-time");
 
 // Function to populate modal
-function populateModal(eventName) {
+function populateModal(eventName, eventSrc) {
     modalEventName.text(eventName);
     modalEventName.attr("name", eventName);
+    modalEventName.attr("url-src", eventSrc);
 
     // Loop to create time options in modal
     for (var i = 0; i < 24 ; i++) {
@@ -20,29 +21,32 @@ function populateModal(eventName) {
 
 
 // Function to add event
-function addEvent(eventName) {
-    console.log("adding event...");
+function addEvent(eventName, eventSrc) {
     // set variables for time, and duration
     var eventTime = modalTime.val();
-    var eventDuration = $("#modal-duration").val();
+    var eventDuration = "Duration: " + $("#modal-duration").val();
 
     // Add to schedule
     var timeID = "#task-" + eventTime;
-    var taskEl = $("<div>").text(eventName);
+    var taskName = $("<a>").attr({href: eventSrc, target: "_blank"}).text(eventName)
+    var taskEl = $("<div>").append(taskName, eventDuration);
     $(timeID).append(taskEl);
 }
 
 // Event listener for card add button
 resultsSection.on("click", "button.add-btn", function() {
     var eventName = $(this).parent().siblings("h2").attr("card-title");
+    var eventSrc = $(this).siblings().attr("data-viewsrc");
     // On click, populate modal
-    populateModal(eventName);
+    populateModal(eventName, eventSrc);
     
 });
 
 // Event listener for modal submission
 $("#schedule-btn").on("click", function() {
     var eventName = modalEventName.attr("name");
+    var eventSrc = modalEventName.attr("url-src");
     // Create schedule event
-    addEvent(eventName);
+    addEvent(eventName, eventSrc);
+
 })
