@@ -39,10 +39,10 @@ function updateWeatherForCity(city) {
         // Convert temperature from Kelvin to Celsius
         const temperatureCelsius = Math.round(temperature - 273.15);
 
-        taskBox.innerHTML = `<p>${hour.toString().padStart(2, "0")}:00</p>
-                             <p>${temperatureCelsius}°C</p>
-                             <img src="https://openweathermap.org/img/w/${weatherIcon}.png" alt="Weather Icon">
-                             `;
+        // Remove the line that appends the time
+        taskBox.innerHTML = `<p>${temperatureCelsius}°C</p>
+                               <img src="https://openweathermap.org/img/w/${weatherIcon}.png" alt="Weather Icon">
+                               `;
       });
     },
     function (error) {
