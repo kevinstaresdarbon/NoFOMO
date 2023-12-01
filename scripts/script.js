@@ -52,61 +52,95 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function handleSearch() {
+  var locationIDs = [];
   var category = $("#categoryInput").val();
   var location = $("#locationInput").val();
   var date = $("#dateInput").val();
   var time = $("#timeInput").val();
-  var queryURL =
-    "https://api.content.tripadvisor.com/api/v1/location/search?key=" +
-    TA_API_KEY +
-    "&searchQuery=" +
-    location +
-    "&language=en";
 
-  $.ajax({
-    url: queryURL,
-    async: "true",
-    method: "GET",
-    dataType: "jsonp",
-    crossDomain: "true",
-    headers: { referer: "kevinstaresdarbon.github.io" },
-    success: function (response) {
-      console.log(response);
+  const url = 'https://worldwide-restaurants.p.rapidapi.com/typeahead';
+  const settings = {
+    async: true,
+    crossDomain: true,
+    url: 'https://worldwide-restaurants.p.rapidapi.com/typeahead',
+    method: 'POST',
+    headers: {
+      'content-type': 'application/x-www-form-urlencoded',
+      'X-RapidAPI-Key': '3b3014b767msh0f5d9ed74986aa6p1b0d4djsn8246731a57ed',
+      'X-RapidAPI-Host': 'worldwide-restaurants.p.rapidapi.com'
     },
-    error: function (err) {
-      console.log("An error occured: " + err);
-    },
+    data: {
+      q: location,
+      language: 'en_GB'
+    }
+  };
+
+  $.ajax(settings).done(function (response) {
+    const settings = {
+      async: true,
+      crossDomain: true,
+      url: 'https://worldwide-restaurants.p.rapidapi.com/search',
+      method: 'POST',
+      headers: {
+        'content-type': 'application/x-www-form-urlencoded',
+        'X-RapidAPI-Key': '3b3014b767msh0f5d9ed74986aa6p1b0d4djsn8246731a57ed',
+        'X-RapidAPI-Host': 'worldwide-restaurants.p.rapidapi.com'
+      },
+      data: {
+        language: 'en_GB',
+        location_id: response.results.data[0].result_object.location_id,
+        currency: 'GBP',
+        offset: '0'
+      }
+    };
+
+    console.log(response.results);
+
+    $.ajax(settings).done(function (response) {
+
+      for (let i = 0; i < 10; i++) {
+        // locationIDs[i] = response.results.data[i].location_id; //add more code into this loop
+        // var currentCard = $("#card" + i);
+        // console.log(currentCard);
+        // currentCard.children().eq(1).children("h2").innerText = response.results.data[i].name;
+        // console.log(response.results.data[i]);
+        var name = response.results.data[i].name;
+        var imgSRC = response.results.data[i].photo.images.medium.url;
+        var viewSRC = response.results.data[i].web_url;
+        cardMaker(name, imgSRC, viewSRC);
+      }
+
+    });
   });
 }
 
 $("#searchBtn").on("click", handleSearch);
 
-// Create 8 cards dynamically
-const dynamicCardsContainer = document.getElementById("dynamicCards");
 
-for (let i = 0; i < 10; i++) {
-  // Card
+function cardMaker(name, imgSRC, viewSRC){
+  const dynamicCardsContainer = document.getElementById("dynamicCards");
+
   const cardCol = document.createElement("div");
   cardCol.className = "col-md-3 mb-4";
   cardCol.style.display = "inline-block";
 
   const card = document.createElement("div");
-  card.className = "card mb-4 shadow-sm";
-
+  card.minHeight = "600px";
+  card.className = "card mb-4 shadow-sm h-100";
   // Card Image
   const cardImage = document.createElement("img");
-  cardImage.src = "https://placehold.co/300x200";
+  cardImage.src = imgSRC;
   cardImage.alt = "Restaurant Image";
   cardImage.className = "card-img-top";
 
   // Card Body
   const cardBody = document.createElement("div");
-  cardBody.className = "card-body";
+  cardBody.className = "card-body d-flex flex-column justify-content-between";
 
   // Card Title
   const cardTitle = document.createElement("h2");
   cardTitle.className = "card-title font-weight-bold";
-  cardTitle.innerText = "Result Name";
+  cardTitle.innerText = name;
 
   // Button Group
   const buttonGroup = document.createElement("div");
@@ -116,6 +150,7 @@ for (let i = 0; i < 10; i++) {
   // View Button
   const viewButton = document.createElement("button");
   viewButton.className = "btn btn-success";
+  viewButton.setAttribute("data-viewSRC", viewSRC);
   viewButton.innerText = "View";
 
   // Add Button

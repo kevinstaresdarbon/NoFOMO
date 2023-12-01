@@ -23,6 +23,7 @@
 .task {
   height: calc(100% - 25px);
 }
+
 .date {
   font-size: 24px;
   font-weight: bold;
@@ -33,4 +34,11 @@
 .card {
   justify-content: center;
   border-radius: 10px;
+}
+
+/* adding to bootstraps custom class for consistency */
+.card-img-top{
+  object-fit:cover;
+  height:13vw;
+  width:100%;
 }
