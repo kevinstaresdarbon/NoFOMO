@@ -155,6 +155,7 @@ function cardMaker(name, imgSRC, viewSRC){
 
   cardTitle.className = "card-title result-title font-weight-bold";
   cardTitle.innerText = name;
+  cardTitle.setAttribute("card-title", name);
 
   // Button Group
   const buttonGroup = document.createElement("div");

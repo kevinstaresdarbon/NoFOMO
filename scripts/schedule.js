@@ -2,12 +2,10 @@ var resultsSection = $("#results");
 var modalEventName = $("#event-name");
 var modalTime = $("#modal-time");
 
-// test event name
-var eventName = "Test event #1"
-
 // Function to populate modal
-function populateModal() {
+function populateModal(eventName) {
     modalEventName.text(eventName);
+    modalEventName.attr("name", eventName);
 
     // Loop to create time options in modal
     for (var i = 0; i < 24 ; i++) {
@@ -22,7 +20,7 @@ function populateModal() {
 
 
 // Function to add event
-function addEvent() {
+function addEvent(eventName) {
     console.log("adding event...");
     // set variables for time, and duration
     var eventTime = modalTime.val();
@@ -36,13 +34,15 @@ function addEvent() {
 
 // Event listener for card add button
 resultsSection.on("click", "button.add-btn", function() {
+    var eventName = $(this).parent().siblings("h2").attr("card-title");
     // On click, populate modal
-    populateModal();
+    populateModal(eventName);
     
 });
 
 // Event listener for modal submission
 $("#schedule-btn").on("click", function() {
+    var eventName = modalEventName.attr("name");
     // Create schedule event
-    addEvent();
+    addEvent(eventName);
 })
