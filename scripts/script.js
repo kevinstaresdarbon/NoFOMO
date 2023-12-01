@@ -38,6 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
     task.className = "task";
     const taskId = `${hour}`;
     task.setAttribute("id", "task-" + taskId);
+    task.innerText = "Task";
 
     // Append
     box.appendChild(time);
@@ -111,7 +112,11 @@ function handleSearch() {
       }
 
     });
+
   });
+
+  // Call the function to update weather for the entered location
+  updateWeatherForCity(location);
 }
 
 function handleView(event){
@@ -124,6 +129,7 @@ $(document).on("click", ".viewButton", handleView)
 
 function cardMaker(name, imgSRC, viewSRC){
   const dynamicCardsContainer = document.getElementById("dynamicCards");
+
 
   const cardCol = document.createElement("div");
   cardCol.className = "col-md-3 mb-4";
@@ -144,6 +150,7 @@ function cardMaker(name, imgSRC, viewSRC){
 
   // Card Title
   const cardTitle = document.createElement("h2");
+
   cardTitle.className = "card-title font-weight-bold";
   cardTitle.innerText = name;
 
@@ -154,8 +161,10 @@ function cardMaker(name, imgSRC, viewSRC){
 
   // View Button
   const viewButton = document.createElement("button");
+
   viewButton.className = "btn btn-success viewButton";
   viewButton.setAttribute("data-viewsrc", viewSRC);
+
   viewButton.innerText = "View";
 
   // Add Button
@@ -178,3 +187,5 @@ function cardMaker(name, imgSRC, viewSRC){
   cardCol.appendChild(card);
   dynamicCardsContainer.appendChild(cardCol);
 }
+
+
