@@ -98,6 +98,8 @@ function handleSearch() {
     console.log(response.results);
 
     $.ajax(settings).done(function (response) {
+      //clear old searches
+      $("#dynamicCards").empty();
 
       for (let i = 0; i < 10; i++) {
         // locationIDs[i] = response.results.data[i].location_id; //add more code into this loop
