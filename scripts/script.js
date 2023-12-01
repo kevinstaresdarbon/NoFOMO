@@ -125,7 +125,7 @@ function handleView(event){
 }
 
 $("#searchBtn").on("click", handleSearch);
-$(document).on("click", ".viewButton", handleView)
+$(document).on("click", ".view-btn", handleView)
 
 function cardMaker(name, imgSRC, viewSRC){
   const dynamicCardsContainer = document.getElementById("dynamicCards");
@@ -151,7 +151,7 @@ function cardMaker(name, imgSRC, viewSRC){
   // Card Title
   const cardTitle = document.createElement("h2");
 
-  cardTitle.className = "card-title font-weight-bold";
+  cardTitle.className = "card-title result-title font-weight-bold";
   cardTitle.innerText = name;
 
   // Button Group
@@ -162,7 +162,7 @@ function cardMaker(name, imgSRC, viewSRC){
   // View Button
   const viewButton = document.createElement("button");
 
-  viewButton.className = "btn btn-success viewButton";
+  viewButton.className = "btn btn-success view-btn";
   viewButton.setAttribute("data-viewsrc", viewSRC);
 
   viewButton.innerText = "View";
