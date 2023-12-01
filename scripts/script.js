@@ -114,8 +114,13 @@ function handleSearch() {
   });
 }
 
-$("#searchBtn").on("click", handleSearch);
+function handleView(event){
+  console.log(event.target);
+  window.open(event.target.dataset.viewsrc, "_blank");
+}
 
+$("#searchBtn").on("click", handleSearch);
+$(document).on("click", ".viewButton", handleView)
 
 function cardMaker(name, imgSRC, viewSRC){
   const dynamicCardsContainer = document.getElementById("dynamicCards");
@@ -149,8 +154,8 @@ function cardMaker(name, imgSRC, viewSRC){
 
   // View Button
   const viewButton = document.createElement("button");
-  viewButton.className = "btn btn-success";
-  viewButton.setAttribute("data-viewSRC", viewSRC);
+  viewButton.className = "btn btn-success viewButton";
+  viewButton.setAttribute("data-viewsrc", viewSRC);
   viewButton.innerText = "View";
 
   // Add Button
