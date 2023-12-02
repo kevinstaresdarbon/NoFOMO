@@ -50,6 +50,8 @@ button {
 .result-title {
   font-size: 18px;
   margin-bottom: 24px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .add-btn {

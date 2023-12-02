@@ -134,11 +134,11 @@ function cardMaker(name, imgSRC, viewSRC){
 
 
   const cardCol = document.createElement("div");
-  cardCol.className = "col-md-3 mb-4";
+  cardCol.className = "col-sm-12 col-md-6 col-lg-3 mb-4";
   cardCol.style.display = "inline-block";
 
   const card = document.createElement("div");
-  card.minHeight = "600px";
+  card.maxHeight = "600px";
   card.className = "card mb-4";
   // Card Image
   const cardImage = document.createElement("img");
