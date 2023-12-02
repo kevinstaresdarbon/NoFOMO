@@ -138,7 +138,7 @@ function cardMaker(name, imgSRC, viewSRC){
   cardCol.style.display = "inline-block";
 
   const card = document.createElement("div");
-  card.maxHeight = "600px";
+  card.minHeight = "600px";
   card.className = "card mb-4";
   // Card Image
   const cardImage = document.createElement("img");
