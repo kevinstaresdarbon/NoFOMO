@@ -26,11 +26,10 @@ document.addEventListener("DOMContentLoaded", function () {
     // Task Box
     const box = document.createElement("div");
     box.className = "task-box";
-    box.style.backgroundColor = "#A8DBFA";
-    box.style.borderRadius = "10px";
 
     // Time
     const time = document.createElement("p");
+    time.className = "time";
     time.innerText = `${hour.toString().padStart(2, "0")}:00`;
 
     // Task
@@ -38,7 +37,6 @@ document.addEventListener("DOMContentLoaded", function () {
     task.className = "task";
     const taskId = `${hour}`;
     task.setAttribute("id", "task-" + taskId);
-    task.innerText = "Task";
 
     // Append
     box.appendChild(time);
