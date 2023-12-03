@@ -1,3 +1,7 @@
+button {
+  border: none !important;
+}
+
 .schedule-container {
   width: 100%;
   overflow-x: auto;
@@ -7,22 +11,32 @@
 
 .schedule-row {
   white-space: nowrap;
+  margin: 16px;
 }
 
 .schedule-col {
   display: inline-block;
-  margin-right: 10px;
+  /* margin-right: 10px; */
 }
 
 .task-box {
-  width: 200px;
-  height: 200px;
-  background-color: #a8dbfa;
-  border-radius: 10px;
+  width: 300px;
+  height: 150px;
+  background-color: transparent;
+  color: #5F6369;
+  border-left: solid 2px #9DA0A4;
+}
+
+.time {
+  margin-left: 8px;
 }
 
 .task {
-  height: calc(100% - 25px);
+  display: flex;
+  flex-direction: column;
+  background-color: transparent;
+  border-radius: 15px;
+  min-height: 80px;
 }
 
 .date {
@@ -37,10 +51,12 @@
   border: none;
   border-radius: 15px;
   background-color: #F2F3F5;
+  height: 100%;
 }
 
 .card img {
   border-radius: 15px;
+  min-height: 150px;
 }
 
 .result-title {

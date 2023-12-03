@@ -31,18 +31,21 @@ function updateWeatherForCity(city) {
         const weatherIcon = response.list[index].weather[0].icon;
 
         // Update time card with temperature and weather icon
-        const taskBox = document.getElementById(`task-${hour}`);
-        console.log(
-          `Updating task-${hour} with temperature: ${temperature}°K, icon: ${weatherIcon}`
-        );
+        const taskBox = document.getElementById(`hour-${hour}`);
 
         // Convert temperature from Kelvin to Celsius
         const temperatureCelsius = Math.round(temperature - 273.15);
 
-        // Remove the line that appends the time
-        taskBox.innerHTML = `<p>${temperatureCelsius}°C</p>
-                               <img src="https://openweathermap.org/img/w/${weatherIcon}.png" alt="Weather Icon">
-                               `;
+        // Prepend weather info
+        var weatherEl = document.createElement("div");
+        var weatherImg = document.createElement("img");
+        weatherImg.setAttribute("src", "https://openweathermap.org/img/wn/" + `${weatherIcon}` + ".png");
+        weatherEl.append(`${temperatureCelsius}` + "°C", weatherImg);
+        console.log(weatherImg)
+        taskBox.append(weatherEl);
+        // taskBox.prepend(`<p>${temperatureCelsius}°C</p>
+        // <img src="https://openweathermap.org/img/wn/${weatherIcon}.png" alt="Weather Icon">
+        // `);
       });
     },
     function (error) {

@@ -28,9 +28,10 @@ function addEvent(eventName, eventSrc) {
 
     // Add to schedule
     var timeID = "#task-" + eventTime;
-    var taskName = $("<a>").attr({href: eventSrc, target: "_blank"}).text(eventName)
-    var taskEl = $("<div>").append(taskName, eventDuration);
-    $(timeID).append(taskEl);
+    var taskName = $("<a>").attr({href: eventSrc, target: "_blank"}).text(eventName);
+    $(timeID).append(taskName, eventDuration);
+    // Adds background colour to schedule block once item is added
+    $(timeID).css("background-color", "red");
 }
 
 // Event listener for card add button

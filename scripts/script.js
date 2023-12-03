@@ -26,19 +26,19 @@ document.addEventListener("DOMContentLoaded", function () {
     // Task Box
     const box = document.createElement("div");
     box.className = "task-box";
-    box.style.backgroundColor = "#A8DBFA";
-    box.style.borderRadius = "10px";
+    const scheduleId = `${hour}`;
+    box.setAttribute("id", "hour-" + scheduleId);
 
     // Time
     const time = document.createElement("p");
+    time.className = "time";
     time.innerText = `${hour.toString().padStart(2, "0")}:00`;
 
     // Task
-    const task = document.createElement("p");
+    const task = document.createElement("div");
     task.className = "task";
     const taskId = `${hour}`;
     task.setAttribute("id", "task-" + taskId);
-    task.innerText = "Task";
 
     // Append
     box.appendChild(time);
@@ -164,12 +164,12 @@ function cardMaker(name, imgSRC, viewSRC){
 
 
   const cardCol = document.createElement("div");
-  cardCol.className = "col-md-3 mb-4";
+  cardCol.className = "col-sm-12 col-md-6 col-lg-3 mb-4";
   cardCol.style.display = "inline-block";
 
   const card = document.createElement("div");
   card.minHeight = "600px";
-  card.className = "card mb-4 shadow-sm h-100";
+  card.className = "card mb-4";
   // Card Image
   const cardImage = document.createElement("img");
   cardImage.src = imgSRC;
