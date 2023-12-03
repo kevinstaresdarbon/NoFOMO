@@ -26,6 +26,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // Task Box
     const box = document.createElement("div");
     box.className = "task-box";
+    const scheduleId = `${hour}`;
+    box.setAttribute("id", "hour-" + scheduleId);
 
     // Time
     const time = document.createElement("p");
@@ -33,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
     time.innerText = `${hour.toString().padStart(2, "0")}:00`;
 
     // Task
-    const task = document.createElement("p");
+    const task = document.createElement("div");
     task.className = "task";
     const taskId = `${hour}`;
     task.setAttribute("id", "task-" + taskId);

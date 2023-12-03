@@ -32,8 +32,11 @@ button {
 }
 
 .task {
-  background-color: red;
+  display: flex;
+  flex-direction: column;
+  background-color: transparent;
   border-radius: 15px;
+  min-height: 80px;
 }
 
 .date {
