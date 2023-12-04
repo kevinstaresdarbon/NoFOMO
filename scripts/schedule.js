@@ -2,6 +2,7 @@ var resultsSection = $("#results");
 var modalEventName = $("#event-name");
 var modalTime = $("#modal-time");
 
+
 document.addEventListener("DOMContentLoaded", function () {
   // Retrieve events from local storage
   const savedEvents = JSON.parse(localStorage.getItem("savedEvents")) || {};
@@ -39,6 +40,7 @@ function populateModal(eventName, eventSrc) {
   }
 }
 
+
 // Function to add event
 function addEvent(eventName, eventSrc) {
   // set variables for time, and duration
@@ -54,8 +56,10 @@ function addEvent(eventName, eventSrc) {
   // Adds background colour to schedule block once item is added
   $(timeID).css("background-color", "red");
 
+
   // Save the event to local storage
   saveEventToLocalStorage(eventTime, eventName, eventSrc, eventDuration);
+
 }
 
 // Event listener for card add button
@@ -73,6 +77,7 @@ $("#schedule-btn").on("click", function () {
   // Create schedule event
   addEvent(eventName, eventSrc);
 });
+
 
 // Function to save an event to local storage
 function saveEventToLocalStorage(hour, eventName, eventSrc, eventDuration) {

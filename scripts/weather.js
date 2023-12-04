@@ -33,8 +33,17 @@ function updateWeatherForCity(city) {
         // Update time card with temperature and weather icon
         const taskBox = document.getElementById(`hour-${hour}`);
 
+        // Find or create the weather element in the task box
+        let weatherEl = taskBox.querySelector(".weather-info");
+        if (!weatherEl) {
+          weatherEl = document.createElement("div");
+          weatherEl.className = "weather-info";
+          taskBox.appendChild(weatherEl);
+        }
+
         // Convert temperature from Kelvin to Celsius
         const temperatureCelsius = Math.round(temperature - 273.15);
+
 
         // Prepend weather info
         var weatherEl = document.createElement("div");
@@ -49,6 +58,7 @@ function updateWeatherForCity(city) {
         // taskBox.prepend(`<p>${temperatureCelsius}°C</p>
         // <img src="https://openweathermap.org/img/wn/${weatherIcon}.png" alt="Weather Icon">
         // `);
+
       });
     },
     function (error) {
@@ -57,21 +67,17 @@ function updateWeatherForCity(city) {
   );
 }
 
-// Example usage: Update weather using the location from the input field
 function updateWeatherForInputLocation() {
   const inputLocation = $("#locationInput").val();
+
 
   if (!inputLocation) {
     console.log("Input location");
     return;
+
   }
-
-  console.log("Updating weather for location:", inputLocation);
-
-  updateWeatherForCity(inputLocation);
 }
 
-// Example usage: Update weather using the location from the input field
 $(document).ready(function () {
-  updateWeatherForInputLocation();
+  $("#searchBtn").on("click", updateWeatherForInputLocation);
 });
