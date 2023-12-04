@@ -39,9 +39,12 @@ function updateWeatherForCity(city) {
         // Prepend weather info
         var weatherEl = document.createElement("div");
         var weatherImg = document.createElement("img");
-        weatherImg.setAttribute("src", "https://openweathermap.org/img/wn/" + `${weatherIcon}` + ".png");
+        weatherImg.setAttribute(
+          "src",
+          "https://openweathermap.org/img/wn/" + `${weatherIcon}` + ".png"
+        );
         weatherEl.append(`${temperatureCelsius}` + "°C", weatherImg);
-        console.log(weatherImg)
+        console.log(weatherImg);
         taskBox.append(weatherEl);
         // taskBox.prepend(`<p>${temperatureCelsius}°C</p>
         // <img src="https://openweathermap.org/img/wn/${weatherIcon}.png" alt="Weather Icon">
@@ -59,7 +62,7 @@ function updateWeatherForInputLocation() {
   const inputLocation = $("#locationInput").val();
 
   if (!inputLocation) {
-    console.error("Input location is empty. Please provide a valid location.");
+    console.log("Input location");
     return;
   }
 
