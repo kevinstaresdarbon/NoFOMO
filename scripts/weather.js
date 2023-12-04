@@ -53,7 +53,7 @@ function updateWeatherForCity(city) {
     }
   );
 }
-// Example usage: Update weather using the location from the input field
+
 function updateWeatherForInputLocation() {
   const inputLocation = $("#locationInput").val();
 
@@ -65,7 +65,6 @@ function updateWeatherForInputLocation() {
   }
 }
 
-// Example usage: Update weather using the location from the input field
 $(document).ready(function () {
   $("#searchBtn").on("click", updateWeatherForInputLocation);
 });
