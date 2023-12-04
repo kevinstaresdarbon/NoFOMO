@@ -44,8 +44,21 @@ function updateWeatherForCity(city) {
         // Convert temperature from Kelvin to Celsius
         const temperatureCelsius = Math.round(temperature - 273.15);
 
-        // Update weather info
-        weatherEl.innerHTML = `<div>${temperatureCelsius}°C</div><img src="https://openweathermap.org/img/wn/${weatherIcon}.png" alt="Weather Icon">`;
+
+        // Prepend weather info
+        var weatherEl = document.createElement("div");
+        var weatherImg = document.createElement("img");
+        weatherImg.setAttribute(
+          "src",
+          "https://openweathermap.org/img/wn/" + `${weatherIcon}` + ".png"
+        );
+        weatherEl.append(`${temperatureCelsius}` + "°C", weatherImg);
+        console.log(weatherImg);
+        taskBox.append(weatherEl);
+        // taskBox.prepend(`<p>${temperatureCelsius}°C</p>
+        // <img src="https://openweathermap.org/img/wn/${weatherIcon}.png" alt="Weather Icon">
+        // `);
+
       });
     },
     function (error) {
@@ -57,11 +70,11 @@ function updateWeatherForCity(city) {
 function updateWeatherForInputLocation() {
   const inputLocation = $("#locationInput").val();
 
-  if (inputLocation) {
-    console.log("Updating weather for location:", inputLocation);
-    updateWeatherForCity(inputLocation);
-  } else {
-    console.warn("Input location is empty. Please provide a valid location.");
+
+  if (!inputLocation) {
+    console.log("Input location");
+    return;
+
   }
 }
 
