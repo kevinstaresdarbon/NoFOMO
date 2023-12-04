@@ -30,14 +30,22 @@ function updateWeatherForCity(city) {
         const temperature = response.list[index].main.temp;
         const weatherIcon = response.list[index].weather[0].icon;
 
+        // Convert temperature from Kelvin to Celsius
+        const temperatureCelsius = Math.round(temperature - 273.15);
+
         // Update time card with temperature and weather icon
         const taskBox = document.getElementById(`hour-${hour}`);
 
         // Clear existing content
         taskBox.innerHTML = "";
 
-        // Convert temperature from Kelvin to Celsius
-        const temperatureCelsius = Math.round(temperature - 273.15);
+        // Create time element
+        const timeElement = document.createElement("p");
+        timeElement.className = "time";
+        timeElement.innerText = `${hour.toString().padStart(2, "0")}:00`;
+
+        // Append time element
+        taskBox.appendChild(timeElement);
 
         // Append weather info
         var weatherEl = document.createElement("div");
