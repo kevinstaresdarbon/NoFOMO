@@ -30,32 +30,22 @@ function updateWeatherForCity(city) {
         const temperature = response.list[index].main.temp;
         const weatherIcon = response.list[index].weather[0].icon;
 
-        // Convert temperature from Kelvin to Celsius
-        const temperatureCelsius = Math.round(temperature - 273.15);
-
         // Update time card with temperature and weather icon
         const taskBox = document.getElementById(`hour-${hour}`);
 
-        // Clear existing content
-        taskBox.innerHTML = "";
+        // Find or create the weather element in the task box
+        let weatherEl = taskBox.querySelector(".weather-info");
+        if (!weatherEl) {
+          weatherEl = document.createElement("div");
+          weatherEl.className = "weather-info";
+          taskBox.appendChild(weatherEl);
+        }
 
-        // Create time element
-        const timeElement = document.createElement("p");
-        timeElement.className = "time";
-        timeElement.innerText = `${hour.toString().padStart(2, "0")}:00`;
+        // Convert temperature from Kelvin to Celsius
+        const temperatureCelsius = Math.round(temperature - 273.15);
 
-        // Append time element
-        taskBox.appendChild(timeElement);
-
-        // Append weather info
-        var weatherEl = document.createElement("div");
-        var weatherImg = document.createElement("img");
-        weatherImg.setAttribute(
-          "src",
-          "https://openweathermap.org/img/wn/" + `${weatherIcon}` + ".png"
-        );
-        weatherEl.append(`${temperatureCelsius}` + "°C", weatherImg);
-        taskBox.append(weatherEl);
+        // Update weather info
+        weatherEl.innerHTML = `<div>${temperatureCelsius}°C</div><img src="https://openweathermap.org/img/wn/${weatherIcon}.png" alt="Weather Icon">`;
       });
     },
     function (error) {
@@ -63,7 +53,6 @@ function updateWeatherForCity(city) {
     }
   );
 }
-
 // Example usage: Update weather using the location from the input field
 function updateWeatherForInputLocation() {
   const inputLocation = $("#locationInput").val();

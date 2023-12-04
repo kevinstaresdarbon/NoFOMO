@@ -26,18 +26,11 @@ function addEvent(eventName, eventSrc) {
 
   // Add to schedule
   var timeID = "#task-" + eventTime;
-
-  // Create a new task box for the event
-  var taskBox = $("<div>").addClass("task-box");
   var taskName = $("<a>")
     .attr({ href: eventSrc, target: "_blank" })
     .text(eventName);
-  taskBox.append(taskName, eventDuration);
-
-  // Append the task box to the correct time slot
-  $(timeID).find(".task").append(taskBox);
-
-  // Adds background color to schedule block once item is added
+  $(timeID).append(taskName, eventDuration);
+  // Adds background colour to schedule block once item is added
   $(timeID).css("background-color", "red");
 }
 
