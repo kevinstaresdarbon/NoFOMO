@@ -18,7 +18,11 @@ document.addEventListener("DOMContentLoaded", function () {
       const taskName = $("<a>")
         .attr({ href: eventDetails.url, target: "_blank" })
         .text(eventDetails.name);
-      $(timeID).append(taskName, "Duration: " + eventDetails.duration);
+        var taskDetails = $("<div>");
+        taskDetails.append(taskName, eventDetails.duration).addClass("task-details");
+      var deleteTask = $("<i class=\"fa fa-trash\" aria-hidden=\"true\"></i>");
+      deleteTask.addClass("delete-btn");
+      $(timeID).append(taskDetails, deleteTask);
       $(timeID).css("background-color", "red");
     }
   });
@@ -52,7 +56,12 @@ function addEvent(eventName, eventSrc) {
   var taskName = $("<a>")
     .attr({ href: eventSrc, target: "_blank" })
     .text(eventName);
-  $(timeID).append(taskName, eventDuration);
+
+  var taskDetails = $("<div>");
+  taskDetails.append(taskName, eventDuration).addClass("task-details");
+  var deleteTask = $("<i class=\"fa fa-trash\" aria-hidden=\"true\"></i>");
+  deleteTask.addClass("delete-btn");
+  $(timeID).append(taskDetails, deleteTask);
   // Adds background colour to schedule block once item is added
   $(timeID).css("background-color", "red");
 
