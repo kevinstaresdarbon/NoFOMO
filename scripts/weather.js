@@ -14,44 +14,50 @@ function getWeatherForecast(city, hours, successCallback, errorCallback) {
   });
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+  const hours = Array.from({ length: 24 }, (_, i) => i);
+
+  hours.forEach((hour) => {
+    const taskBox = document.getElementById(`hour-${hour}`);
+    let weatherEl = taskBox.querySelector(".weather-info");
+
+    if (!weatherEl) {
+      weatherEl = document.createElement("div");
+      weatherEl.className = "weather-info";
+      taskBox.appendChild(weatherEl);
+    }
+
+    // Initial placeholder content
+    weatherEl.innerHTML = `<div>-°C</div><img src="https://placehold.co/50x50" alt="Weather Icon">`;
+  });
+});
+
 // Function to update weather for a specific city
 function updateWeatherForCity(city) {
   const hours = Array.from({ length: 24 }, (_, i) => i);
 
-  getWeatherForecast(
-    city,
-    hours,
-    function (response) {
-      // Handle the weather data response
-      console.log("API Response:", response);
+  hours.forEach((hour, index) => {
+    const taskBox = document.getElementById(`hour-${hour}`);
+    let weatherEl = taskBox.querySelector(".weather-info");
 
-      // Update UI with the weather information
-      hours.forEach((hour, index) => {
-        const temperature = response.list[index].main.temp;
-        const weatherIcon = response.list[index].weather[0].icon;
-
-        // Update time card with temperature and weather icon
-        const taskBox = document.getElementById(`hour-${hour}`);
-
-        // Find or create the weather element in the task box
-        let weatherEl = taskBox.querySelector(".weather-info");
-        if (!weatherEl) {
-          weatherEl = document.createElement("div");
-          weatherEl.className = "weather-info";
-          taskBox.appendChild(weatherEl);
-        }
+    getWeatherForecast(
+      city,
+      [hour],
+      function (response) {
+        const temperature = response.list[0].main.temp;
+        const weatherIcon = response.list[0].weather[0].icon;
 
         // Convert temperature from Kelvin to Celsius
         const temperatureCelsius = Math.round(temperature - 273.15);
 
         // Update weather info
         weatherEl.innerHTML = `<div>${temperatureCelsius}°C</div><img src="https://openweathermap.org/img/wn/${weatherIcon}.png" alt="Weather Icon">`;
-      });
-    },
-    function (error) {
-      console.log("Error fetching weather data: ", error);
-    }
-  );
+      },
+      function (error) {
+        console.log("Error fetching weather data: ", error);
+      }
+    );
+  });
 }
 
 function updateWeatherForInputLocation() {
@@ -60,10 +66,12 @@ function updateWeatherForInputLocation() {
   if (inputLocation) {
     console.log("Updating weather for location:", inputLocation);
     updateWeatherForCity(inputLocation);
-  } else {
-    console.warn("Input location is empty. Please provide a valid location.");
   }
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+  updateWeatherForInputLocation();
+});
 
 $(document).ready(function () {
   $("#searchBtn").on("click", updateWeatherForInputLocation);
