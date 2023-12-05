@@ -57,6 +57,9 @@ function handleSearchLocation() {
 
   var location = $("#locationInput").val();
   var category = $("#categoryInput").val();
+
+  $('#dynamicCards').empty();
+
   if (!location) { return };
 
   const url = 'https://worldwide-restaurants.p.rapidapi.com/typeahead';
