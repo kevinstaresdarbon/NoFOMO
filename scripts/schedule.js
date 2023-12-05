@@ -3,10 +3,7 @@ var modalEventName = $("#event-name");
 var modalTime = $("#modal-time");
 
 
-document.addEventListener("DOMContentLoaded", function () {
-  // Retrieve events from local storage
-  const savedEvents = JSON.parse(localStorage.getItem("savedEvents")) || {};
-
+function renderTasks(savedEvents) {
   // Loop through saved events and add them to the schedule
   Object.keys(savedEvents).forEach((hour) => {
     const eventDetails = savedEvents[hour];
@@ -14,6 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Check if the task element exists
     if ($(timeID).length) {
+      $(timeID).empty();
       // Add event details to the existing task element
       const taskName = $("<a>")
         .attr({ href: eventDetails.url, target: "_blank" })
@@ -26,6 +24,13 @@ document.addEventListener("DOMContentLoaded", function () {
       $(timeID).css("background-color", "red");
     }
   });
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  // Retrieve events from local storage
+  const savedEvents = JSON.parse(localStorage.getItem("savedEvents")) || {};
+
+  renderTasks(savedEvents)
 });
 
 // Function to populate modal
@@ -106,9 +111,10 @@ function saveEventToLocalStorage(hour, eventName, eventSrc, eventDuration) {
 
 // Function to delete event from schedule
 function deleteEvent(toDelete) {
-  $("#" + toDelete).html("").css("background-color", "transparent");
+  $("#" + toDelete).css("background-color", "transparent").empty();
   const savedEvents = JSON.parse(localStorage.getItem("savedEvents")) || {};
   delete savedEvents["#" + toDelete];
+  renderTasks(savedEvents);
   localStorage.setItem("savedEvents", JSON.stringify(savedEvents));
 }
 
