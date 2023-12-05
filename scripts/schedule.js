@@ -2,17 +2,15 @@ var resultsSection = $("#results");
 var modalEventName = $("#event-name");
 var modalTime = $("#modal-time");
 
-document.addEventListener("DOMContentLoaded", function () {
-  // Retrieve events from local storage
-  const savedEvents = JSON.parse(localStorage.getItem("savedEvents")) || {};
-
+function renderTasks(savedEvents) {
   // Loop through saved events and add them to the schedule
   Object.keys(savedEvents).forEach((hour) => {
     const eventDetails = savedEvents[hour];
-    const timeID = "#task-" + hour;
+    const timeID = hour;
 
     // Check if the task element exists
     if ($(timeID).length) {
+      $(timeID).empty();
       // Add event details to the existing task element
       const taskName = $("<a>")
         .attr({ href: eventDetails.url, target: "_blank" })
@@ -58,6 +56,13 @@ document.addEventListener("DOMContentLoaded", function () {
       $(timeID).css("background-color", backgroundColor);
     }
   });
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  // Retrieve events from local storage
+  const savedEvents = JSON.parse(localStorage.getItem("savedEvents")) || {};
+
+  renderTasks(savedEvents)
 });
 
 // Function to populate modal
@@ -142,7 +147,7 @@ function addEvent(eventName, eventSrc) {
   $(timeID).css("background-color", backgroundColor);
 
   // Save the event to local storage
-  saveEventToLocalStorage(eventTime, eventName, eventSrc, eventDuration);
+  saveEventToLocalStorage(timeID, eventName, eventSrc, eventDuration);
 }
 
 // Event listener for card add button
@@ -176,3 +181,18 @@ function saveEventToLocalStorage(hour, eventName, eventSrc, eventDuration) {
   // Update local storage
   localStorage.setItem("savedEvents", JSON.stringify(savedEvents));
 }
+
+// Function to delete event from schedule
+function deleteEvent(toDelete) {
+  $("#" + toDelete).css("background-color", "transparent").empty();
+  const savedEvents = JSON.parse(localStorage.getItem("savedEvents")) || {};
+  delete savedEvents["#" + toDelete];
+  renderTasks(savedEvents);
+  localStorage.setItem("savedEvents", JSON.stringify(savedEvents));
+}
+
+$("#daily-schedule").on("click", "i.delete-btn", function() {
+  var deletedTask = $(this).parentsUntil($("task")).attr("id");
+  // function to remove event
+  deleteEvent(deletedTask);
+});
