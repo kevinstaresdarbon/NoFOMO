@@ -27,10 +27,6 @@ function updateWeatherForCity(city) {
 
       // Update UI with the weather information
       hours.forEach((hour, index) => {
-        const temperature = response.list[index].main.temp;
-        const weatherIcon = response.list[index].weather[0].icon;
-
-        // Update time card with temperature and weather icon
         const taskBox = document.getElementById(`hour-${hour}`);
 
         // Find or create the weather element in the task box
@@ -41,11 +37,20 @@ function updateWeatherForCity(city) {
           taskBox.appendChild(weatherEl);
         }
 
-        // Convert temperature from Kelvin to Celsius
-        const temperatureCelsius = Math.round(temperature - 273.15);
+        // Check if the response data is available for the current hour
+        if (response.list[index]) {
+          const temperature = response.list[index].main.temp;
+          const weatherIcon = response.list[index].weather[0].icon;
 
-        // Update weather info
-        weatherEl.innerHTML = `<div>${temperatureCelsius}°C</div><img src="https://openweathermap.org/img/wn/${weatherIcon}.png" alt="Weather Icon">`;
+          // Convert temperature from Kelvin to Celsius
+          const temperatureCelsius = Math.round(temperature - 273.15);
+
+          // Update weather info
+          weatherEl.innerHTML = `<div>${temperatureCelsius}°C</div><img src="https://openweathermap.org/img/wn/${weatherIcon}.png" alt="Weather Icon">`;
+        } else {
+          // If no data is available, display a placeholder
+          weatherEl.innerHTML = `<div></div><img src="" alt="">`;
+        }
       });
     },
     function (error) {
@@ -66,5 +71,19 @@ function updateWeatherForInputLocation() {
 }
 
 $(document).ready(function () {
+  // Initialize weather placeholders on page load
+  const hours = Array.from({ length: 24 }, (_, i) => i);
+  hours.forEach((hour) => {
+    const taskBox = document.getElementById(`hour-${hour}`);
+    let weatherEl = taskBox.querySelector(".weather-info");
+    if (!weatherEl) {
+      weatherEl = document.createElement("div");
+      weatherEl.className = "weather-info";
+      weatherEl.innerHTML = `<div></div><img src="" alt="">`;
+      taskBox.appendChild(weatherEl);
+    }
+  });
+
+  // Attach the click event for updating weather on input
   $("#searchBtn").on("click", updateWeatherForInputLocation);
 });
