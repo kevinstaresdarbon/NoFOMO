@@ -42,7 +42,6 @@ function updateWeatherForCity(city) {
           const temperature = response.list[index].main.temp;
           const weatherIcon = response.list[index].weather[0].icon;
 
-
           // Convert temperature from Kelvin to Celsius
           const temperatureCelsius = Math.round(temperature - 273.15);
 

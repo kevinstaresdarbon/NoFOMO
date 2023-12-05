@@ -63,6 +63,9 @@ function handleSearchLocation() {
 
   var location = $("#locationInput").val();
   var category = $("#categoryInput").val();
+
+  $('#dynamicCards').empty();
+
   if (!location) { return };
 
   const url = 'https://worldwide-restaurants.p.rapidapi.com/typeahead';
@@ -169,7 +172,7 @@ $("#locations-searched").empty();
       }
     });
 }
-  
+
 // Call the function to update weather for the entered location
 updateWeatherForCity(location);
 }
@@ -178,10 +181,12 @@ function handleView(event) {
   window.open(event.target.dataset.viewsrc, "_blank");
 }
 
-
 $("#searchBtn").on("click", handleSearchLocation);
 $(document).on("click", ".location-search-btn", handleSearch);
 $(document).on("click", ".view-btn", handleView)
+
+function cardMaker(name, imgSRC, viewSRC) {
+  const dynamicCardsContainer = document.getElementById("dynamicCards");
 
 
 function cardMaker(name, imgSRC, viewSRC) {
