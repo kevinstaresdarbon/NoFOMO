@@ -82,6 +82,18 @@ function addEvent(eventName, eventSrc) {
   var eventTime = modalTime.val();
   var eventDuration = "Duration: " + $("#modal-duration").val();
 
+  // Check if an event already exists for the selected hour
+  var existingEvent = $("#task-" + eventTime)
+    .find(".task-details")
+    .text()
+    .trim();
+
+  if (existingEvent !== "") {
+    // Show a popup or alert message indicating that the user is already busy at that time
+    alert("You are already busy at that time");
+    return; // Stop the function execution
+  }
+
   // Add to schedule
   var timeID = "#task-" + eventTime;
   var taskName = $("<a>")
@@ -93,7 +105,8 @@ function addEvent(eventName, eventSrc) {
   var deleteTask = $('<i class="fa fa-trash" aria-hidden="true"></i>');
   deleteTask.addClass("delete-btn");
   $(timeID).append(taskDetails, deleteTask);
-  // Adds background colour to schedule block once item is added
+
+
   // Determine background color based on the selected category
   var category = $("#categoryInput").val();
   var backgroundColor;
@@ -123,6 +136,7 @@ function addEvent(eventName, eventSrc) {
     default:
       backgroundColor = "red"; // Default color if category is not matched
   }
+
 
   // Adds background colour to schedule block once item is added
   $(timeID).css("background-color", backgroundColor);
