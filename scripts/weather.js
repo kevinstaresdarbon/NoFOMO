@@ -51,7 +51,6 @@ function updateWeatherForCity(city) {
           // If no data is available, display a placeholder
           weatherEl.innerHTML = `<div></div><img src="" alt="">`;
         }
-
       });
     },
     function (error) {

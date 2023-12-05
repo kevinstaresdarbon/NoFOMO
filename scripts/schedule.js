@@ -106,6 +106,7 @@ function addEvent(eventName, eventSrc) {
   deleteTask.addClass("delete-btn");
   $(timeID).append(taskDetails, deleteTask);
 
+
   // Determine background color based on the selected category
   var category = $("#categoryInput").val();
   var backgroundColor;
@@ -135,6 +136,7 @@ function addEvent(eventName, eventSrc) {
     default:
       backgroundColor = "red"; // Default color if category is not matched
   }
+
 
   // Adds background colour to schedule block once item is added
   $(timeID).css("background-color", backgroundColor);
