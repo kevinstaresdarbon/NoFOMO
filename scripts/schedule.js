@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Loop through saved events and add them to the schedule
   Object.keys(savedEvents).forEach((hour) => {
     const eventDetails = savedEvents[hour];
-    const timeID = "#task-" + hour;
+    const timeID = hour;
 
     // Check if the task element exists
     if ($(timeID).length) {
@@ -67,7 +67,7 @@ function addEvent(eventName, eventSrc) {
 
 
   // Save the event to local storage
-  saveEventToLocalStorage(eventTime, eventName, eventSrc, eventDuration);
+  saveEventToLocalStorage(timeID, eventName, eventSrc, eventDuration);
 
 }
 
@@ -103,3 +103,17 @@ function saveEventToLocalStorage(hour, eventName, eventSrc, eventDuration) {
   // Update local storage
   localStorage.setItem("savedEvents", JSON.stringify(savedEvents));
 }
+
+// Function to delete event from schedule
+function deleteEvent(toDelete) {
+  $("#" + toDelete).html("").css("background-color", "transparent");
+  const savedEvents = JSON.parse(localStorage.getItem("savedEvents")) || {};
+  delete savedEvents["#" + toDelete];
+  localStorage.setItem("savedEvents", JSON.stringify(savedEvents));
+}
+
+$("#daily-schedule").on("click", "i.delete-btn", function() {
+  var deletedTask = $(this).parentsUntil($("task")).attr("id");
+  // function to remove event
+  deleteEvent(deletedTask);
+});
