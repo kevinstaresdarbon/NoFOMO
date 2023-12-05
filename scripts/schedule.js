@@ -24,6 +24,37 @@ document.addEventListener("DOMContentLoaded", function () {
       var deleteTask = $('<i class="fa fa-trash" aria-hidden="true"></i>');
       deleteTask.addClass("delete-btn");
       $(timeID).append(taskDetails, deleteTask);
+      // Determine background color based on the selected category
+      var category = $("#categoryInput").val();
+      var backgroundColor;
+
+      switch (category) {
+        case "Restaurant":
+          backgroundColor = "#08A045";
+          break;
+        case "bar":
+          backgroundColor = "#08A045";
+          break;
+        case "cafe":
+          backgroundColor = "#08A045";
+          break;
+        case "night_club":
+          backgroundColor = "#DC4182";
+          break;
+        case "museum":
+          backgroundColor = "#FF7733";
+          break;
+        case "tourist_attraction":
+          backgroundColor = "#FFBA08";
+          break;
+        case "store":
+          backgroundColor = "#2762BA";
+          break;
+        default:
+          backgroundColor = "red"; // Default color if category is not matched
+      }
+
+      // Adds background colour to schedule block once item is added
       $(timeID).css("background-color", backgroundColor);
     }
   });
