@@ -1,8 +1,14 @@
 document.addEventListener("DOMContentLoaded", function () {
   // Date
+  const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
   const date = document.createElement("h2");
   date.classList.add("date");
-  date.innerText = new Date().toLocaleDateString();
+  date.innerText = new Date().toLocaleDateString("en-US", options);
 
   const schedule = document.getElementById("schedule");
   schedule.parentNode.insertBefore(date, schedule);
@@ -111,10 +117,11 @@ $("#locations-searched").empty();
       crossDomain: true,
       url: 'https://worldwide-restaurants.p.rapidapi.com/search',
       method: 'POST',
+
       headers: {
-        'content-type': 'application/x-www-form-urlencoded',
-        'X-RapidAPI-Key': '3b3014b767msh0f5d9ed74986aa6p1b0d4djsn8246731a57ed',
-        'X-RapidAPI-Host': 'worldwide-restaurants.p.rapidapi.com'
+        "content-type": "application/x-www-form-urlencoded",
+        "X-RapidAPI-Key": "3b3014b767msh0f5d9ed74986aa6p1b0d4djsn8246731a57ed",
+        "X-RapidAPI-Host": "worldwide-restaurants.p.rapidapi.com",
       },
       data: {
         language: 'en_GB',
@@ -162,6 +169,7 @@ $("#locations-searched").empty();
       }
     });
 }
+  
 // Call the function to update weather for the entered location
 updateWeatherForCity(location);
 }
@@ -170,13 +178,14 @@ function handleView(event) {
   window.open(event.target.dataset.viewsrc, "_blank");
 }
 
+
 $("#searchBtn").on("click", handleSearchLocation);
 $(document).on("click", ".location-search-btn", handleSearch);
 $(document).on("click", ".view-btn", handleView)
 
+
 function cardMaker(name, imgSRC, viewSRC) {
   const dynamicCardsContainer = document.getElementById("dynamicCards");
-
 
   const cardCol = document.createElement("div");
   cardCol.className = "col-sm-12 col-md-6 col-lg-3 mb-4";
@@ -235,5 +244,3 @@ function cardMaker(name, imgSRC, viewSRC) {
   cardCol.appendChild(card);
   dynamicCardsContainer.appendChild(cardCol);
 }
-
-
