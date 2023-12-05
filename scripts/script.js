@@ -104,14 +104,14 @@ function handleSearchLocation() {
 
 function handleSearch(event) {
 
- var $buttonPressed = $(event.target);
- var lat = $buttonPressed.attr("data-lat");
- var lon = $buttonPressed.attr("data-lon");
- var category = $buttonPressed.attr("data-cat");
- var locID = $buttonPressed.attr("data-id");
- var location = $buttonPressed.attr("data-loc");
+  var $buttonPressed = $(event.target);
+  var lat = $buttonPressed.attr("data-lat");
+  var lon = $buttonPressed.attr("data-lon");
+  var category = $buttonPressed.attr("data-cat");
+  var locID = $buttonPressed.attr("data-id");
+  var location = $buttonPressed.attr("data-loc");
 
-$("#locations-searched").empty();
+  $("#locations-searched").empty();
 
   if (category === "Restaurant") {
 
@@ -139,14 +139,14 @@ $("#locations-searched").empty();
       $("#dynamicCards").empty();
 
       for (let i = 0; i < 10; i++) {
-        if (!response.results.data[i].name){return};
+        if (!response.results.data[i].name) { return };
         var name = response.results.data[i].name;
         var imgSRC = response.results.data[i].photo.images.medium.url;
         var viewSRC = response.results.data[i].web_url;
         cardMaker(name, imgSRC, viewSRC);
       }
-  });
-} else {
+    });
+  } else {
 
     const settings = {
       async: true,
@@ -163,7 +163,7 @@ $("#locations-searched").empty();
       $("#dynamicCards").empty();
 
       for (let i = 0; i < 10; i++) {
-        if (!response.results[i].name){ return}
+        if (!response.results[i].name) { return }
         var name = response.results[i].name;
         var imgSRC = "https://placehold.co/300x200"
         var viewSRC = response.results[i].website;
@@ -171,10 +171,10 @@ $("#locations-searched").empty();
         cardMaker(name, imgSRC, viewSRC);
       }
     });
-}
+  }
 
-// Call the function to update weather for the entered location
-updateWeatherForCity(location);
+  // Call the function to update weather for the entered location
+  updateWeatherForCity(location);
 }
 
 function handleView(event) {
@@ -184,9 +184,6 @@ function handleView(event) {
 $("#searchBtn").on("click", handleSearchLocation);
 $(document).on("click", ".location-search-btn", handleSearch);
 $(document).on("click", ".view-btn", handleView)
-
-function cardMaker(name, imgSRC, viewSRC) {
-  const dynamicCardsContainer = document.getElementById("dynamicCards");
 
 
 function cardMaker(name, imgSRC, viewSRC) {
