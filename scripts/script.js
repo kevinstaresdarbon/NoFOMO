@@ -1,8 +1,14 @@
 document.addEventListener("DOMContentLoaded", function () {
   // Date
+  const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
   const date = document.createElement("h2");
   date.classList.add("date");
-  date.innerText = new Date().toLocaleDateString();
+  date.innerText = new Date().toLocaleDateString("en-US", options);
 
   const schedule = document.getElementById("schedule");
   schedule.parentNode.insertBefore(date, schedule);
@@ -52,116 +58,136 @@ document.addEventListener("DOMContentLoaded", function () {
   schedule.appendChild(container);
 });
 
-function handleSearch() {
-  var locationIDs = [];
-  var category = $("#categoryInput").val();
-  var location = $("#locationInput").val();
-  var date = $("#dateInput").val();
-  var time = $("#timeInput").val();
 
-  if (category === "Restaurant"){
-    const url = 'https://worldwide-restaurants.p.rapidapi.com/typeahead';
+function handleSearchLocation() {
+
+  var location = $("#locationInput").val();
+  var category = $("#categoryInput").val();
+
+  $('#dynamicCards').empty();
+
+  if (!location) { return };
+
+  const url = 'https://worldwide-restaurants.p.rapidapi.com/typeahead';
+  const settings = {
+    async: true,
+    crossDomain: true,
+    url: 'https://worldwide-restaurants.p.rapidapi.com/typeahead',
+    method: 'POST',
+    headers: {
+      'content-type': 'application/x-www-form-urlencoded',
+      'X-RapidAPI-Key': '3b3014b767msh0f5d9ed74986aa6p1b0d4djsn8246731a57ed',
+      'X-RapidAPI-Host': 'worldwide-restaurants.p.rapidapi.com'
+    },
+    data: {
+      q: location,
+      language: 'en_GB'
+    }
+  };
+
+  $.ajax(settings).done(function (response) {
+    var outputEl = $('#locations-searched');
+    outputEl.empty();
+    for (let i = 0; i < response.results.data.length; i++) {
+      var lat = response.results.data[i].result_object.latitude;
+      var lon = response.results.data[i].result_object.longitude;
+      var locID = response.results.data[i].result_object.location_id;
+      var searchName = response.results.data[i].result_object.name + ', ' + response.results.data[i].result_object.parent_display_name;
+
+      var searchButtonEl = $('<button data-lat =' + lat + ' data-lon=' + lon + ' data-cat=' + category + ' data-id=' + locID + ' data-loc=' + searchName + ' class="btn btn-secondary location-search-btn m-2"> ' + searchName + '</button>');
+      outputEl.append(searchButtonEl);
+    }
+  });
+};
+
+
+
+function handleSearch(event) {
+
+  var $buttonPressed = $(event.target);
+  var lat = $buttonPressed.attr("data-lat");
+  var lon = $buttonPressed.attr("data-lon");
+  var category = $buttonPressed.attr("data-cat");
+  var locID = $buttonPressed.attr("data-id");
+  var location = $buttonPressed.attr("data-loc");
+
+  $("#locations-searched").empty();
+
+  if (category === "Restaurant") {
+
     const settings = {
       async: true,
       crossDomain: true,
-      url: 'https://worldwide-restaurants.p.rapidapi.com/typeahead',
+      url: 'https://worldwide-restaurants.p.rapidapi.com/search',
       method: 'POST',
+
       headers: {
-        'content-type': 'application/x-www-form-urlencoded',
-        'X-RapidAPI-Key': '3b3014b767msh0f5d9ed74986aa6p1b0d4djsn8246731a57ed',
-        'X-RapidAPI-Host': 'worldwide-restaurants.p.rapidapi.com'
+        "content-type": "application/x-www-form-urlencoded",
+        "X-RapidAPI-Key": "3b3014b767msh0f5d9ed74986aa6p1b0d4djsn8246731a57ed",
+        "X-RapidAPI-Host": "worldwide-restaurants.p.rapidapi.com",
       },
       data: {
-        q: location,
-        language: 'en_GB'
+        language: 'en_GB',
+        location_id: locID,
+        currency: 'GBP',
+        offset: '0'
       }
     };
-  
+
     $.ajax(settings).done(function (response) {
-      const settings = {
-        async: true,
-        crossDomain: true,
-        url: 'https://worldwide-restaurants.p.rapidapi.com/search',
-        method: 'POST',
-        headers: {
-          'content-type': 'application/x-www-form-urlencoded',
-          'X-RapidAPI-Key': '3b3014b767msh0f5d9ed74986aa6p1b0d4djsn8246731a57ed',
-          'X-RapidAPI-Host': 'worldwide-restaurants.p.rapidapi.com'
-        },
-        data: {
-          language: 'en_GB',
-          location_id: response.results.data[0].result_object.location_id,
-          currency: 'GBP',
-          offset: '0'
-        }
-      };
-  
-      $.ajax(settings).done(function (response) {
-        //clear old searches
-        $("#dynamicCards").empty();
-  
-        for (let i = 0; i < 10; i++) {
-          var name = response.results.data[i].name;
-          var imgSRC = response.results.data[i].photo.images.medium.url;
-          var viewSRC = response.results.data[i].web_url;
-          cardMaker(name, imgSRC, viewSRC);
-        }
-  
-      });
+      //clear old searches
+      $("#dynamicCards").empty();
+
+      for (let i = 0; i < 10; i++) {
+        if (!response.results.data[i].name) { return };
+        var name = response.results.data[i].name;
+        var imgSRC = response.results.data[i].photo.images.medium.url;
+        var viewSRC = response.results.data[i].web_url;
+        cardMaker(name, imgSRC, viewSRC);
+      }
     });
   } else {
+
     const settings = {
       async: true,
       crossDomain: true,
-      url: 'https://opentripmap-places-v1.p.rapidapi.com/en/places/geoname?name='+location,
+      url: 'https://trueway-places.p.rapidapi.com/FindPlacesNearby?location=' + lat + '%2C' + lon + '&radius=10000&language=en&type=' + category,
       method: 'GET',
       headers: {
         'X-RapidAPI-Key': '3b3014b767msh0f5d9ed74986aa6p1b0d4djsn8246731a57ed',
-        'X-RapidAPI-Host': 'opentripmap-places-v1.p.rapidapi.com'
+        'X-RapidAPI-Host': 'trueway-places.p.rapidapi.com'
       }
     };
-    
+
     $.ajax(settings).done(function (response) {
-      var lat = response.lat;
-      var lon = response.lon;
-      const settings = {
-        async: true,
-        crossDomain: true,
-        url: 'https://trueway-places.p.rapidapi.com/FindPlacesNearby?location=' + lat + '%2C' + lon + '&radius=10000&language=en&type='+ category,
-        method: 'GET',
-        headers: {
-          'X-RapidAPI-Key': '3b3014b767msh0f5d9ed74986aa6p1b0d4djsn8246731a57ed',
-          'X-RapidAPI-Host': 'trueway-places.p.rapidapi.com'
-        }
-      };
-      
-      $.ajax(settings).done(function (response) {
-        $("#dynamicCards").empty();
+      $("#dynamicCards").empty();
 
-        for (let i=0; i<10; i++){
-          var name = response.results[i].name;
-          var imgSRC = "https://placehold.co/300x200"
-          var viewSRC = response.results[i].website;
+      for (let i = 0; i < 10; i++) {
+        if (!response.results[i].name) { return }
+        var name = response.results[i].name;
+        var imgSRC = "https://placehold.co/300x200"
+        var viewSRC = response.results[i].website;
 
-          cardMaker(name, imgSRC, viewSRC);
-        }
-      });
+        cardMaker(name, imgSRC, viewSRC);
+      }
     });
   }
+
   // Call the function to update weather for the entered location
   updateWeatherForCity(location);
 }
 
-function handleView(event){
+function handleView(event) {
   window.open(event.target.dataset.viewsrc, "_blank");
 }
 
-$("#searchBtn").on("click", handleSearch);
+$("#searchBtn").on("click", handleSearchLocation);
+$(document).on("click", ".location-search-btn", handleSearch);
 $(document).on("click", ".view-btn", handleView)
 
-function cardMaker(name, imgSRC, viewSRC){
-  const dynamicCardsContainer = document.getElementById("dynamicCards");
 
+function cardMaker(name, imgSRC, viewSRC) {
+  const dynamicCardsContainer = document.getElementById("dynamicCards");
 
   const cardCol = document.createElement("div");
   cardCol.className = "col-sm-12 col-md-6 col-lg-3 mb-4";
@@ -220,5 +246,3 @@ function cardMaker(name, imgSRC, viewSRC){
   cardCol.appendChild(card);
   dynamicCardsContainer.appendChild(cardCol);
 }
-
-
