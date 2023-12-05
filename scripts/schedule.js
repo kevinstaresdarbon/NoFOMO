@@ -2,7 +2,6 @@ var resultsSection = $("#results");
 var modalEventName = $("#event-name");
 var modalTime = $("#modal-time");
 
-
 document.addEventListener("DOMContentLoaded", function () {
   // Retrieve events from local storage
   const savedEvents = JSON.parse(localStorage.getItem("savedEvents")) || {};
@@ -18,12 +17,45 @@ document.addEventListener("DOMContentLoaded", function () {
       const taskName = $("<a>")
         .attr({ href: eventDetails.url, target: "_blank" })
         .text(eventDetails.name);
-        var taskDetails = $("<div>");
-        taskDetails.append(taskName, eventDetails.duration).addClass("task-details");
-      var deleteTask = $("<i class=\"fa fa-trash\" aria-hidden=\"true\"></i>");
+      var taskDetails = $("<div>");
+      taskDetails
+        .append(taskName, eventDetails.duration)
+        .addClass("task-details");
+      var deleteTask = $('<i class="fa fa-trash" aria-hidden="true"></i>');
       deleteTask.addClass("delete-btn");
       $(timeID).append(taskDetails, deleteTask);
-      $(timeID).css("background-color", "red");
+      // Determine background color based on the selected category
+      var category = $("#categoryInput").val();
+      var backgroundColor;
+
+      switch (category) {
+        case "Restaurant":
+          backgroundColor = "#08A045";
+          break;
+        case "bar":
+          backgroundColor = "#08A045";
+          break;
+        case "cafe":
+          backgroundColor = "#08A045";
+          break;
+        case "night_club":
+          backgroundColor = "#DC4182";
+          break;
+        case "museum":
+          backgroundColor = "#FF7733";
+          break;
+        case "tourist_attraction":
+          backgroundColor = "#FFBA08";
+          break;
+        case "store":
+          backgroundColor = "#2762BA";
+          break;
+        default:
+          backgroundColor = "red"; // Default color if category is not matched
+      }
+
+      // Adds background colour to schedule block once item is added
+      $(timeID).css("background-color", backgroundColor);
     }
   });
 });
@@ -44,7 +76,6 @@ function populateModal(eventName, eventSrc) {
   }
 }
 
-
 // Function to add event
 function addEvent(eventName, eventSrc) {
   // set variables for time, and duration
@@ -59,16 +90,45 @@ function addEvent(eventName, eventSrc) {
 
   var taskDetails = $("<div>");
   taskDetails.append(taskName, eventDuration).addClass("task-details");
-  var deleteTask = $("<i class=\"fa fa-trash\" aria-hidden=\"true\"></i>");
+  var deleteTask = $('<i class="fa fa-trash" aria-hidden="true"></i>');
   deleteTask.addClass("delete-btn");
   $(timeID).append(taskDetails, deleteTask);
   // Adds background colour to schedule block once item is added
-  $(timeID).css("background-color", "red");
+  // Determine background color based on the selected category
+  var category = $("#categoryInput").val();
+  var backgroundColor;
 
+  switch (category) {
+    case "Restaurant":
+      backgroundColor = "#08A045";
+      break;
+    case "bar":
+      backgroundColor = "#08A045";
+      break;
+    case "cafe":
+      backgroundColor = "#08A045";
+      break;
+    case "night_club":
+      backgroundColor = "#DC4182";
+      break;
+    case "museum":
+      backgroundColor = "#FF7733";
+      break;
+    case "tourist_attraction":
+      backgroundColor = "#FFBA08";
+      break;
+    case "store":
+      backgroundColor = "#2762BA";
+      break;
+    default:
+      backgroundColor = "red"; // Default color if category is not matched
+  }
+
+  // Adds background colour to schedule block once item is added
+  $(timeID).css("background-color", backgroundColor);
 
   // Save the event to local storage
   saveEventToLocalStorage(eventTime, eventName, eventSrc, eventDuration);
-
 }
 
 // Event listener for card add button
@@ -86,7 +146,6 @@ $("#schedule-btn").on("click", function () {
   // Create schedule event
   addEvent(eventName, eventSrc);
 });
-
 
 // Function to save an event to local storage
 function saveEventToLocalStorage(hour, eventName, eventSrc, eventDuration) {
