@@ -94,6 +94,20 @@ a {
   width: 50%;
   margin-right: 6px;
 }
+.location-search-btn {
+  background-color: #08A045;
+  width: 30%;
+}
+
+.location-search-btn:hover {
+  background-color: #0d813b;
+}
+
+#searchBtn {
+  background-color: #08A045;
+  color: white;
+  border: solid 1px #08A045 !important;
+}
 
 #daily-schedule {
   position: fixed;
