@@ -69,7 +69,6 @@ function handleSearchLocation() {
   if (!location) { return };
  
   //copied and adapted from rapidAPI interface.
-  const url = 'https://worldwide-restaurants.p.rapidapi.com/typeahead';
   const settings = {
     async: true,
     crossDomain: true,
