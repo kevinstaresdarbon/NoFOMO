@@ -22,11 +22,17 @@ function updateWeatherForCity(city) {
     city,
     hours,
     function (response) {
-      // Handle the weather data response
+      // Log the entire API response for debugging
       console.log("API Response:", response);
 
       // Update UI with the weather information
-      hours.forEach((hour, index) => {
+      hours.forEach((hour) => {
+        const timestamp = new Date(response.list[hour].dt * 1000);
+        const temperature = response.list.find((item) => {
+          const itemTimestamp = new Date(item.dt * 1000);
+          return itemTimestamp.getHours() === timestamp.getHours();
+        });
+
         const taskBox = document.getElementById(`hour-${hour}`);
 
         // Find or create the weather element in the task box
@@ -38,14 +44,14 @@ function updateWeatherForCity(city) {
         }
 
         // Check if the response data is available for the current hour
-        if (response.list[index]) {
-          const temperature = response.list[index].main.temp;
-          const weatherIcon = response.list[index].weather[0].icon;
+        if (temperature) {
+          const temperatureCelsius = Math.round(temperature.main.temp - 273.15);
+          const weatherIcon = temperature.weather[0].icon;
 
-          // Convert temperature from Kelvin to Celsius
-          const temperatureCelsius = Math.round(temperature - 273.15);
+          // Log temperature for debugging
+          console.log(`Hour ${hour} Temperature: ${temperatureCelsius}°C`);
 
-          // Update weather info
+          // Update weather info for the current hour
           weatherEl.innerHTML = `<div>${temperatureCelsius}°C</div><img src="https://openweathermap.org/img/wn/${weatherIcon}.png" alt="Weather Icon">`;
         } else {
           // If no data is available, display a placeholder
