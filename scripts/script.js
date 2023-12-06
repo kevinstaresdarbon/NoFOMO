@@ -67,7 +67,8 @@ function handleSearchLocation() {
   $('#dynamicCards').empty();
 
   if (!location) { return };
-
+ 
+  //copied and adapted from rapidAPI interface.
   const url = 'https://worldwide-restaurants.p.rapidapi.com/typeahead';
   const settings = {
     async: true,
@@ -114,7 +115,7 @@ function handleSearch(event) {
   $("#locations-searched").empty();
 
   if (category === "Restaurant") {
-
+  // copied and adapted from rapidAPI interface.  I did the various nesting too
     const settings = {
       async: true,
       crossDomain: true,
@@ -177,15 +178,18 @@ function handleSearch(event) {
   updateWeatherForCity(location);
 }
 
+// simply uses the website stored on the card
 function handleView(event) {
   window.open(event.target.dataset.viewsrc, "_blank");
 }
 
+// sets up handlers for the different interactivity with the page, some deferred
 $("#searchBtn").on("click", handleSearchLocation);
+
 $(document).on("click", ".location-search-btn", handleSearch);
 $(document).on("click", ".view-btn", handleView)
 
-
+// adapted from code originally provided by Janeks and turned into a function to make it responsive to click events
 function cardMaker(name, imgSRC, viewSRC) {
   const dynamicCardsContainer = document.getElementById("dynamicCards");
 
@@ -222,7 +226,7 @@ function cardMaker(name, imgSRC, viewSRC) {
   const viewButton = document.createElement("button");
 
   viewButton.className = "btn btn-success view-btn";
-  viewButton.setAttribute("data-viewsrc", viewSRC);
+  viewButton.setAttribute("data-viewsrc", viewSRC); // link added into card data- for later use.
 
   viewButton.innerText = "View";
 
