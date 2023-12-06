@@ -7,6 +7,7 @@ function renderTasks(savedEvents) {
   Object.keys(savedEvents).forEach((hour) => {
     const eventDetails = savedEvents[hour];
     const timeID = hour;
+    const backgroundColor = eventDetails.colour;
 
     // Check if the task element exists
     if ($(timeID).length) {
@@ -24,33 +25,6 @@ function renderTasks(savedEvents) {
       $(timeID).append(taskDetails, deleteTask);
       // Determine background color based on the selected category
       var category = $("#categoryInput").val();
-      var backgroundColor;
-
-      switch (category) {
-        case "Restaurant":
-          backgroundColor = "#08A045";
-          break;
-        case "bar":
-          backgroundColor = "#08A045";
-          break;
-        case "cafe":
-          backgroundColor = "#08A045";
-          break;
-        case "night_club":
-          backgroundColor = "#DC4182";
-          break;
-        case "museum":
-          backgroundColor = "#FF7733";
-          break;
-        case "tourist_attraction":
-          backgroundColor = "#FFBA08";
-          break;
-        case "store":
-          backgroundColor = "#2762BA";
-          break;
-        default:
-          backgroundColor = "red"; // Default color if category is not matched
-      }
 
       // Adds background colour to schedule block once item is added
       $(timeID).css("background-color", backgroundColor);
@@ -147,7 +121,7 @@ function addEvent(eventName, eventSrc) {
   $(timeID).css("background-color", backgroundColor);
 
   // Save the event to local storage
-  saveEventToLocalStorage(timeID, eventName, eventSrc, eventDuration);
+  saveEventToLocalStorage(timeID, eventName, eventSrc, eventDuration, backgroundColor);
 }
 
 // Event listener for card add button
@@ -167,7 +141,7 @@ $("#schedule-btn").on("click", function () {
 });
 
 // Function to save an event to local storage
-function saveEventToLocalStorage(hour, eventName, eventSrc, eventDuration) {
+function saveEventToLocalStorage(hour, eventName, eventSrc, eventDuration, colour) {
   // Retrieve existing saved events or create a new object
   const savedEvents = JSON.parse(localStorage.getItem("savedEvents")) || {};
 
@@ -176,6 +150,7 @@ function saveEventToLocalStorage(hour, eventName, eventSrc, eventDuration) {
     name: eventName,
     url: eventSrc,
     duration: eventDuration,
+    colour: colour
   };
 
   // Update local storage
