@@ -2,6 +2,34 @@ var resultsSection = $("#results");
 var modalEventName = $("#event-name");
 var modalTime = $("#modal-time");
 
+// Function to show modal
+function showModal(content) {
+  var modal = $("#myModal");
+  var modalContent = modal.find(".modal-content");
+
+  // Set modal content
+  modalContent.html(content);
+
+  // Show the modal
+  modal.css("display", "block");
+
+  // Close the modal when the user clicks anywhere outside of it
+  $(window).on("click", function (event) {
+    if (event.target === modal[0]) {
+      closeModal();
+    }
+  });
+
+  // Close the modal when the user clicks the close button
+  $(".close").on("click", closeModal);
+}
+
+// Function to close the modal
+function closeModal() {
+  $("#myModal").css("display", "none");
+  $("#myModal .modal-content").empty();
+}
+
 function renderTasks(savedEvents) {
   // Loop through saved events and add them to the schedule
   Object.keys(savedEvents).forEach((hour) => {
@@ -62,7 +90,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Retrieve events from local storage
   const savedEvents = JSON.parse(localStorage.getItem("savedEvents")) || {};
 
-  renderTasks(savedEvents)
+  renderTasks(savedEvents);
 });
 
 // Function to populate modal
@@ -94,8 +122,9 @@ function addEvent(eventName, eventSrc) {
     .trim();
 
   if (existingEvent !== "") {
-    // Show a popup or alert message indicating that the user is already busy at that time
-    alert("You are already busy at that time");
+    // Show a modal message indicating that the user is already busy at that time
+    var modalContent = $("<p>").text("You are already busy at that time");
+    showModal(modalContent);
     return; // Stop the function execution
   }
 
@@ -110,7 +139,6 @@ function addEvent(eventName, eventSrc) {
   var deleteTask = $('<i class="fa fa-trash" aria-hidden="true"></i>');
   deleteTask.addClass("delete-btn");
   $(timeID).append(taskDetails, deleteTask);
-
 
   // Determine background color based on the selected category
   var category = $("#categoryInput").val();
@@ -141,7 +169,6 @@ function addEvent(eventName, eventSrc) {
     default:
       backgroundColor = "red"; // Default color if category is not matched
   }
-
 
   // Adds background colour to schedule block once item is added
   $(timeID).css("background-color", backgroundColor);
@@ -184,14 +211,16 @@ function saveEventToLocalStorage(hour, eventName, eventSrc, eventDuration) {
 
 // Function to delete event from schedule
 function deleteEvent(toDelete) {
-  $("#" + toDelete).css("background-color", "transparent").empty();
+  $("#" + toDelete)
+    .css("background-color", "transparent")
+    .empty();
   const savedEvents = JSON.parse(localStorage.getItem("savedEvents")) || {};
   delete savedEvents["#" + toDelete];
   renderTasks(savedEvents);
   localStorage.setItem("savedEvents", JSON.stringify(savedEvents));
 }
 
-$("#daily-schedule").on("click", "i.delete-btn", function() {
+$("#daily-schedule").on("click", "i.delete-btn", function () {
   var deletedTask = $(this).parentsUntil($("task")).attr("id");
   // function to remove event
   deleteEvent(deletedTask);
