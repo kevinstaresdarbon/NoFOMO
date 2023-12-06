@@ -22,9 +22,6 @@ function updateWeatherForCity(city) {
     city,
     hours,
     function (response) {
-      // Log the entire API response for debugging
-      console.log("API Response:", response);
-
       // Update UI with the weather information
       hours.forEach((hour) => {
         const timestamp = new Date(response.list[hour].dt * 1000);
@@ -34,7 +31,6 @@ function updateWeatherForCity(city) {
         });
 
         const taskBox = document.getElementById(`hour-${hour}`);
-
         // Find or create the weather element in the task box
         let weatherEl = taskBox.querySelector(".weather-info");
         if (!weatherEl) {
@@ -48,9 +44,6 @@ function updateWeatherForCity(city) {
           const temperatureCelsius = Math.round(temperature.main.temp - 273.15);
           const weatherIcon = temperature.weather[0].icon;
 
-          // Log temperature for debugging
-          console.log(`Hour ${hour} Temperature: ${temperatureCelsius}°C`);
-
           // Update weather info for the current hour
           weatherEl.innerHTML = `<div>${temperatureCelsius}°C</div><img src="https://openweathermap.org/img/wn/${weatherIcon}.png" alt="Weather Icon">`;
         } else {
@@ -60,24 +53,26 @@ function updateWeatherForCity(city) {
       });
     },
     function (error) {
+      // Handle error
       console.log("Error fetching weather data: ", error);
     }
   );
 }
 
+// Function to update weather for the input location
 function updateWeatherForInputLocation() {
   const inputLocation = $("#locationInput").val();
 
   if (inputLocation) {
-    console.log("Updating weather for location:", inputLocation);
     updateWeatherForCity(inputLocation);
   } else {
+    // Warn if input location is empty
     console.warn("Input location is empty. Please provide a valid location.");
   }
 }
 
+// Initialize weather placeholders on page load
 $(document).ready(function () {
-  // Initialize weather placeholders on page load
   const hours = Array.from({ length: 24 }, (_, i) => i);
   hours.forEach((hour) => {
     const taskBox = document.getElementById(`hour-${hour}`);
